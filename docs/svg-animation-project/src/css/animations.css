@@ -1,0 +1,40 @@
+@keyframes flower-bloom {
+    0% {
+        transform: scale(1);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.2);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 0;
+    }
+}
+
+@keyframes butterfly-flutter {
+    0% {
+        transform: rotate(0deg);
+    }
+    25% {
+        transform: rotate(10deg);
+    }
+    50% {
+        transform: rotate(-10deg);
+    }
+    75% {
+        transform: rotate(10deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
+.flower-animation {
+    animation: flower-bloom 4s ease-in-out infinite;
+}
+
+.butterfly-animation {
+    animation: butterfly-flutter 2s ease-in-out infinite;
+}

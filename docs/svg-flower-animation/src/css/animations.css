@@ -1,0 +1,27 @@
+@keyframes flower-name-fade-in {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.flower-name {
+    animation: flower-name-fade-in 1s ease forwards;
+}
+
+@keyframes flower-name-bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+.flower-name:hover {
+    animation: flower-name-bounce 0.5s ease forwards;
+}

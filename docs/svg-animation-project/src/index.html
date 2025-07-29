@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SVG Animation Project</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+    <h1>SVG Animation Project</h1>
+    <div class="animation-container">
+        <h2>Flower Animation</h2>
+        <object type="image/svg+xml" data="animations/flower.svg" class="svg-animation" id="flower-animation">
+            Your browser does not support SVG
+        </object>
+        
+        <h2>Butterfly Animation</h2>
+        <object type="image/svg+xml" data="animations/butterfly.svg" class="svg-animation" id="butterfly-animation">
+            Your browser does not support SVG
+        </object>
+    </div>
+    <script src="js/svg-polyfill.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

@@ -3,10 +3,205 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>花の詩 - インタラクティブタイポグラフィ</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- GSAP CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/MorphSVGPlugin.min.js"></script>
 </head>
 <body>
-    <h1>ドキュメント</h1>
-    <p>これはサンプルのparu用ドキュメントです。</p>
+    <!-- カーソル追随花びらエフェクト -->
+    <div id="cursor-petals"></div>
+    
+    <!-- メインコンテナ -->
+    <div class="main-container">
+        <!-- 花セクション：花言葉の類似性に基づいて配置 -->
+        
+        <!-- 1. 紫陽花 (変わりやすい心) -->
+        <section class="flower-section" data-flower="hydrangea">
+            <div class="flower-container">
+                <!-- 花の名前（手書きSVGテキスト風） -->
+                <div class="flower-name">
+                    <svg viewBox="0 0 300 80" class="name-svg">
+                        <!-- 紫陽花のSVGテキスト（プレースホルダー） -->
+                        <path class="stroke-path" d="M20 40 Q40 20 60 40 T100 40" stroke="#6B73FF" stroke-width="3" fill="none"/>
+                        <text x="20" y="50" class="flower-text">紫陽花</text>
+                        <!-- 小さな花のアイコン -->
+                        <circle class="flower-icon" cx="250" cy="30" r="8" fill="#9b59b6"/>
+                    </svg>
+                </div>
+                
+                <!-- 花のSVG -->
+                <div class="flower-svg-container">
+                    <object class="flower-svg" data="images/hydrangea.svg" type="image/svg+xml">
+                        <!-- フォールバック用 -->
+                        <img src="images/hydrangea.svg" alt="紫陽花" class="flower-svg-fallback"/>
+                    </object>
+                </div>
+                
+                <!-- 花言葉（縦書き・ランダム配置・分離） -->
+                <div class="hanakotoba-container">
+                    <div class="hanakotoba-word hanakotoba-word-1">
+                        <span class="meaning-line">変わりやすい心</span>
+                    </div>
+                    <div class="hanakotoba-word hanakotoba-word-2">
+                        <span class="meaning-line">移り気</span>
+                    </div>
+                    <div class="hanakotoba-word hanakotoba-word-3">
+                        <span class="meaning-line">家族の結びつき</span>
+                    </div>
+                </div>
+                
+                <!-- 詩のテキスト（縦書き） -->
+                <div class="poem-text-container">
+                    <div class="poem-text-vertical">
+                        <span class="poem-line">紫陽花の その水いろの かなしみの</span>
+                        <span class="poem-line">滴るゆふべ 蜩のなく</span>
+                        
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. コスモス (調和) -->
+        <section class="flower-section" data-flower="cosmos">
+            <div class="flower-container">
+                <div class="flower-name">
+                    <svg viewBox="0 0 300 80" class="name-svg">
+                        <path class="stroke-path" d="M20 40 Q40 20 60 40 T100 40" stroke="#FF6B9D" stroke-width="3" fill="none"/>
+                        <text x="20" y="50" class="flower-text">コスモス</text>
+                        <circle class="flower-icon" cx="250" cy="30" r="8" fill="#e74c3c"/>
+                    </svg>
+                </div>
+                
+                <div class="flower-svg-container">
+                    <object class="flower-svg" data="images/cosmos.svg" type="image/svg+xml">
+                        <img src="images/cosmos.svg" alt="コスモス" class="flower-svg-fallback"/>
+                    </object>
+                </div>
+                
+                <div class="hanakotoba">
+                    <span class="meaning-text">調和</span>
+                    <span class="meaning-text">謙虚</span>
+                    <span class="meaning-text">美しさ</span>
+                </div>
+                
+                <!-- 花占いゲーム -->
+                <div class="petal-fortune">
+                    <button class="fortune-btn">花占いをする</button>
+                    <div class="fortune-result"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. チューリップ (愛の告白) -->
+        <section class="flower-section" data-flower="tulip">
+            <div class="flower-container">
+                <div class="flower-name">
+                    <svg viewBox="0 0 300 80" class="name-svg">
+                        <path class="stroke-path" d="M20 40 Q40 20 60 40 T100 40" stroke="#FF9500" stroke-width="3" fill="none"/>
+                        <text x="20" y="50" class="flower-text">チューリップ</text>
+                        <circle class="flower-icon" cx="280" cy="30" r="8" fill="#e67e22"/>
+                    </svg>
+                </div>
+                
+                <div class="flower-svg-container">
+                    <object class="flower-svg" data="images/tulip.svg" type="image/svg+xml">
+                        <img src="images/tulip.svg" alt="チューリップ" class="flower-svg-fallback"/>
+                    </object>
+                </div>
+                
+                <div class="hanakotoba">
+                    <span class="meaning-text">愛の告白</span>
+                    <span class="meaning-text">思いやり</span>
+                    <span class="meaning-text">博愛</span>
+                </div>
+                
+                <div class="petal-fortune">
+                    <button class="fortune-btn">花占いをする</button>
+                    <div class="fortune-result"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. ひまわり (憧れ) -->
+        <section class="flower-section" data-flower="sunflower">
+            <div class="flower-container">
+                <div class="flower-name">
+                    <svg viewBox="0 0 300 80" class="name-svg">
+                        <path class="stroke-path" d="M20 40 Q40 20 60 40 T100 40" stroke="#FFD700" stroke-width="3" fill="none"/>
+                        <text x="20" y="50" class="flower-text">ひまわり</text>
+                        <circle class="flower-icon" cx="250" cy="30" r="8" fill="#f1c40f"/>
+                    </svg>
+                </div>
+                
+                <div class="flower-svg-container">
+                    <object class="flower-svg" data="images/sunflower.svg" type="image/svg+xml">
+                        <img src="images/sunflower.svg" alt="ひまわり" class="flower-svg-fallback"/>
+                    </object>
+                </div>
+                
+                <div class="hanakotoba">
+                    <span class="meaning-text">憧れ</span>
+                    <span class="meaning-text">熱愛</span>
+                    <span class="meaning-text">あなただけを見つめる</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. ネモフィラ (可憐) -->
+        <section class="flower-section" data-flower="nemophila">
+            <div class="flower-container">
+                <div class="flower-name">
+                    <svg viewBox="0 0 300 80" class="name-svg">
+                        <path class="stroke-path" d="M20 40 Q40 20 60 40 T100 40" stroke="#3498DB" stroke-width="3" fill="none"/>
+                        <text x="20" y="50" class="flower-text">ネモフィラ</text>
+                        <circle class="flower-icon" cx="280" cy="30" r="8" fill="#3498db"/>
+                    </svg>
+                </div>
+                
+                <div class="flower-svg-container">
+                    <object class="flower-svg" data="images/nemophila.svg" type="image/svg+xml">
+                        <img src="images/nemophila.svg" alt="ネモフィラ" class="flower-svg-fallback"/>
+                    </object>
+                </div>
+                
+                <div class="hanakotoba">
+                    <span class="meaning-text">可憐</span>
+                    <span class="meaning-text">清々しい心</span>
+                    <span class="meaning-text">成功</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. ノースポール (誠実) -->
+        <section class="flower-section" data-flower="northpole">
+            <div class="flower-container">
+                <div class="flower-name">
+                    <svg viewBox="0 0 300 80" class="name-svg">
+                        <path class="stroke-path" d="M20 40 Q40 20 60 40 T100 40" stroke="#FFFFFF" stroke-width="3" fill="none"/>
+                        <text x="20" y="50" class="flower-text">ノースポール</text>
+                        <circle class="flower-icon" cx="300" cy="30" r="8" fill="#ffffff"/>
+                    </svg>
+                </div>
+                
+                <div class="flower-svg-container">
+                    <object class="flower-svg" data="images/northpole.svg" type="image/svg+xml">
+                        <img src="images/northpole.svg" alt="ノースポール" class="flower-svg-fallback"/>
+                    </object>
+                </div>
+                
+                <div class="hanakotoba">
+                    <span class="meaning-text">誠実</span>
+                    <span class="meaning-text">冬の足音</span>
+                    <span class="meaning-text">清潔</span>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="script.js"></script>
 </body>
 </html>

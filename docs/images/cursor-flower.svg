@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+  <!-- シンプルな花モチーフのカーソル -->
+  <g transform="translate(8,8)">
+    <!-- 小さな花びら -->
+    <g>
+      <!-- 花びら1 -->
+      <ellipse cx="0" cy="-4" rx="1" ry="2" fill="#ff6b9d" opacity="0.9" transform="rotate(0)" />
+      <!-- 花びら2 -->
+      <ellipse cx="0" cy="-4" rx="1" ry="2" fill="#ff8fab" opacity="0.9" transform="rotate(90)" />
+      <!-- 花びら3 -->
+      <ellipse cx="0" cy="-4" rx="1" ry="2" fill="#ff6b9d" opacity="0.9" transform="rotate(180)" />
+      <!-- 花びら4 -->
+      <ellipse cx="0" cy="-4" rx="1" ry="2" fill="#ff8fab" opacity="0.9" transform="rotate(270)" />
+    </g>
+    
+    <!-- 花の中心 -->
+    <circle cx="0" cy="0" r="1.5" fill="#ffeb3b" opacity="1" />
+    
+    <!-- ポインター -->
+    <circle cx="0" cy="0" r="0.3" fill="#ffffff" opacity="1" />
+  </g>
+</svg>

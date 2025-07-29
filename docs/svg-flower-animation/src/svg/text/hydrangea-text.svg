@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="100" viewBox="0 0 200 100">
+    <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" font-family="Noto Serif, serif" font-size="36" fill="#ffffff" opacity="0">
+        Hydrangea
+    </text>
+    <style>
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        text {
+            animation: fadeIn 1s ease-out forwards;
+            animation-delay: 0.5s;
+        }
+    </style>
+</svg>

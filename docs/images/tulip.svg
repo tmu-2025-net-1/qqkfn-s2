@@ -1,0 +1,34 @@
+<svg viewBox="-50 -50 300 300" xmlns="http://www.w3.org/2000/svg" style="overflow: visible;">
+  <!-- チューリップのプレースホルダーSVG -->
+  <defs>
+    <linearGradient id="tulip-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ff9500;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#e67e22;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#d35400;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- 花びら -->
+  <g class="tulip-petals">
+    <ellipse class="petal clickable-petal" cx="80" cy="80" rx="15" ry="35" fill="url(#tulip-gradient)" transform="rotate(-20 100 100)"/>
+    <ellipse class="petal clickable-petal" cx="100" cy="75" rx="15" ry="35" fill="#e67e22"/>
+    <ellipse class="petal clickable-petal" cx="120" cy="80" rx="15" ry="35" fill="url(#tulip-gradient)" transform="rotate(20 100 100)"/>
+  </g>
+  
+  <!-- 花の中心部 -->
+  <ellipse class="center" cx="100" cy="95" rx="8" ry="4" fill="#f39c12" opacity="0.8"/>
+  
+  <!-- おしべ -->
+  <g class="stamens">
+    <circle cx="95" cy="92" r="1.5" fill="#2c3e50"/>
+    <circle cx="100" cy="90" r="1.5" fill="#2c3e50"/>
+    <circle cx="105" cy="92" r="1.5" fill="#2c3e50"/>
+  </g>
+  
+  <!-- 茎 -->
+  <rect class="stem" x="98" y="110" width="4" height="70" fill="#27ae60"/>
+  
+  <!-- 葉 -->
+  <ellipse class="leaf" cx="75" cy="135" rx="12" ry="25" fill="#2ecc71" transform="rotate(-25 75 135)"/>
+  <ellipse class="leaf" cx="125" cy="140" rx="10" ry="20" fill="#27ae60" transform="rotate(30 125 140)"/>
+</svg>

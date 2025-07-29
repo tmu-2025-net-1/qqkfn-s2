@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <style>
+      .flower {
+        fill: pink;
+        transition: transform 0.5s ease;
+      }
+      .flower:hover {
+        transform: scale(1.1);
+      }
+      @keyframes bloom {
+        0% {
+          opacity: 0;
+          transform: scale(0.5);
+        }
+        50% {
+          opacity: 1;
+          transform: scale(1.1);
+        }
+        100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+      .bloom-animation {
+        animation: bloom 2s forwards;
+      }
+    </style>
+  </defs>
+  <circle class="flower bloom-animation" cx="100" cy="100" r="40" />
+  <circle class="flower" cx="70" cy="70" r="20" />
+  <circle class="flower" cx="130" cy="70" r="20" />
+  <circle class="flower" cx="70" cy="130" r="20" />
+  <circle class="flower" cx="130" cy="130" r="20" />
+</svg>

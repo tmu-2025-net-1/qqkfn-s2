@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <style>
+      .butterfly {
+        fill: #ff69b4;
+        transition: transform 0.5s ease;
+      }
+      .butterfly:hover {
+        transform: scale(1.1);
+      }
+      @keyframes flutter {
+        0%, 100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+      .wings {
+        animation: flutter 1s infinite;
+      }
+    </style>
+  </defs>
+  <g class="butterfly">
+    <path class="wings" d="M100 50 C 80 20, 20 20, 40 50 C 20 80, 80 80, 100 50 Z" />
+    <path class="wings" d="M100 50 C 120 20, 180 20, 160 50 C 180 80, 120 80, 100 50 Z" />
+    <circle cx="100" cy="100" r="10" fill="#000" />
+  </g>
+</svg>

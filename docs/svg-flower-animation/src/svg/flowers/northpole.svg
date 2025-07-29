@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" class="flower northpole">
+    <circle cx="100" cy="100" r="50" fill="#ffffff" />
+    <path d="M100 50 L120 80 L80 80 Z" fill="#ffcc00" />
+    <path d="M100 50 L80 80 L100 110 Z" fill="#ffcc00" />
+    <path d="M100 50 L120 80 L100 110 Z" fill="#ffcc00" />
+    <path d="M100 50 L80 80 L100 110 Z" fill="#ffcc00" />
+    <text x="50%" y="90%" text-anchor="middle" fill="#000000" font-size="16" font-family="Arial" class="flower-name">North Pole</text>
+    <style>
+        .flower {
+            animation: bloom 1s ease-in-out forwards;
+        }
+        @keyframes bloom {
+            0% {
+                transform: scale(0);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+    </style>
+</svg>

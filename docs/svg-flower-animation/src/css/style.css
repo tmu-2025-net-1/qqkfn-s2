@@ -1,0 +1,57 @@
+body {
+    font-family: 'Noto Serif', 'Noto Serif JP', serif;
+    background: linear-gradient(45deg, #1a1a2e, #16213e, #0f3460);
+    color: #ffffff;
+    overflow-x: hidden;
+    cursor: url('../svg/icons/cursor2.svg') 2 2, auto;
+    min-height: 100vh;
+    scroll-behavior: smooth;
+}
+
+.svg-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    position: relative;
+    z-index: 2;
+}
+
+.svg-flower {
+    width: 100%;
+    max-width: 300px;
+    transition: transform 0.3s ease;
+}
+
+.svg-flower:hover {
+    transform: scale(1.1);
+}
+
+.flower-name {
+    font-size: 24px;
+    color: #e8e8e8;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fade-in-up 1s ease-out forwards;
+}
+
+@keyframes fade-in-up {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .flower-name {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .flower-name {
+        font-size: 18px;
+    }
+}

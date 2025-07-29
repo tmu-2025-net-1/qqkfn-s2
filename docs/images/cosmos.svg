@@ -1,0 +1,46 @@
+<svg viewBox="-50 -50 300 300" xmlns="http://www.w3.org/2000/svg" style="overflow: visible;">
+  <!-- コスモスのプレースホルダーSVG -->
+  <defs>
+    <linearGradient id="cosmos-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ff6b9d;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#e74c3c;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#c0392b;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- 花びら -->
+  <g class="cosmos-petals">
+    <ellipse class="petal clickable-petal" cx="100" cy="60" rx="10" ry="25" fill="url(#cosmos-gradient)" transform="rotate(0 100 100)"/>
+    <ellipse class="petal clickable-petal" cx="100" cy="60" rx="10" ry="25" fill="#e74c3c" transform="rotate(45 100 100)"/>
+    <ellipse class="petal clickable-petal" cx="100" cy="60" rx="10" ry="25" fill="url(#cosmos-gradient)" transform="rotate(90 100 100)"/>
+    <ellipse class="petal clickable-petal" cx="100" cy="60" rx="10" ry="25" fill="#e74c3c" transform="rotate(135 100 100)"/>
+    <ellipse class="petal clickable-petal" cx="100" cy="60" rx="10" ry="25" fill="url(#cosmos-gradient)" transform="rotate(180 100 100)"/>
+    <ellipse class="petal clickable-petal" cx="100" cy="60" rx="10" ry="25" fill="#e74c3c" transform="rotate(225 100 100)"/>
+    <ellipse class="petal clickable-petal" cx="100" cy="60" rx="10" ry="25" fill="url(#cosmos-gradient)" transform="rotate(270 100 100)"/>
+    <ellipse class="petal clickable-petal" cx="100" cy="60" rx="10" ry="25" fill="#e74c3c" transform="rotate(315 100 100)"/>
+  </g>
+  
+  <!-- 中心部 -->
+  <circle class="center" cx="100" cy="100" r="10" fill="#f39c12"/>
+  <circle class="center-inner" cx="100" cy="100" r="6" fill="#e67e22"/>
+  
+  <!-- 中心部の細かいディテール -->
+  <g class="center-details">
+    <circle cx="96" cy="96" r="1" fill="#d35400"/>
+    <circle cx="104" cy="96" r="1" fill="#d35400"/>
+    <circle cx="100" cy="104" r="1" fill="#d35400"/>
+    <circle cx="96" cy="104" r="0.8" fill="#d35400"/>
+    <circle cx="104" cy="104" r="0.8" fill="#d35400"/>
+  </g>
+  
+  <!-- 茎（細め） -->
+  <rect class="stem" x="99" y="110" width="2" height="75" fill="#27ae60"/>
+  
+  <!-- 細かい葉 -->
+  <g class="fine-leaves">
+    <path class="leaf" d="M85 130 Q75 135 85 140 Q90 135 85 130" fill="#2ecc71"/>
+    <path class="leaf" d="M115 135 Q125 140 115 145 Q110 140 115 135" fill="#27ae60"/>
+    <path class="leaf" d="M90 150 Q80 155 90 160 Q95 155 90 150" fill="#2ecc71"/>
+    <path class="leaf" d="M110 155 Q120 160 110 165 Q105 160 110 155" fill="#27ae60"/>
+  </g>
+</svg>

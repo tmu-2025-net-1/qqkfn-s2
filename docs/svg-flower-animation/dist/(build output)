@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+    <defs>
+        <style>
+            .flower-name {
+                font-family: 'Noto Serif', serif;
+                font-size: 48px;
+                fill: #ffffff;
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+                opacity: 0;
+                transform: translateY(20px);
+                animation: fade-in-up 1s ease-out forwards;
+            }
+
+            @keyframes fade-in-up {
+                0% {
+                    opacity: 0;
+                    transform: translateY(20px);
+                }
+                100% {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+        </style>
+    </defs>
+    <g>
+        <text class="flower-name" x="50%" y="50%" text-anchor="middle" dominant-baseline="middle">Hydrangea</text>
+    </g>
+</svg>

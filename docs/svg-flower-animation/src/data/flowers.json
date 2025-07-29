@@ -1,0 +1,40 @@
+{
+  "flowers": [
+    {
+      "name": "Hydrangea",
+      "description": "A beautiful flower known for its large, round blooms and vibrant colors.",
+      "svg": "svg/flowers/hydrangea.svg",
+      "text_svg": "svg/text/hydrangea-text.svg"
+    },
+    {
+      "name": "Cosmos",
+      "description": "A delicate flower that comes in various colors, often seen in gardens.",
+      "svg": "svg/flowers/cosmos.svg",
+      "text_svg": "svg/text/cosmos-text.svg"
+    },
+    {
+      "name": "Tulip",
+      "description": "A popular spring flower that blooms in a variety of colors.",
+      "svg": "svg/flowers/tulip.svg",
+      "text_svg": "svg/text/tulip-text.svg"
+    },
+    {
+      "name": "Sunflower",
+      "description": "A tall flower known for its large yellow petals and seeds.",
+      "svg": "svg/flowers/sunflower.svg",
+      "text_svg": "svg/text/sunflower-text.svg"
+    },
+    {
+      "name": "Nemophila",
+      "description": "A charming flower with delicate blue petals, often found in spring.",
+      "svg": "svg/flowers/nemophila.svg",
+      "text_svg": "svg/text/nemophila-text.svg"
+    },
+    {
+      "name": "Northpole",
+      "description": "A unique flower that thrives in colder climates, known for its resilience.",
+      "svg": "svg/flowers/northpole.svg",
+      "text_svg": "svg/text/northpole-text.svg"
+    }
+  ]
+}

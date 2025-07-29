@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+    <circle cx="100" cy="100" r="50" fill="#FFD700" />
+    <path d="M100 10 L120 70 L180 70 L130 110 L150 170 L100 130 L50 170 L70 110 L20 70 L80 70 Z" fill="#FF8C00" />
+    <text x="50%" y="90%" text-anchor="middle" fill="#8B4513" font-size="20" font-family="Arial" opacity="0">
+        Sunflower
+        <animate attributeName="opacity" from="0" to="1" dur="1s" begin="0.5s" fill="freeze" />
+        <animate attributeName="y" from="90%" to="85%" dur="1s" begin="0.5s" fill="freeze" />
+    </text>
+</svg>

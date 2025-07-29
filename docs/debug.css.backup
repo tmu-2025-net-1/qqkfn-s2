@@ -1,0 +1,154 @@
+/* デバッグ用CSS - 境界を可視化するためのスタイル */
+
+/* すべてのコンテナに境界線を追加 */
+.main-container {
+    border: 3px solid red !important;
+    background: rgba(255, 0, 0, 0.1) !important;
+}
+
+.flower-section {
+    border: 3px solid yellow !important;
+    background: rgba(255, 255, 0, 0.1) !important;
+    overflow: visible !important; /* overflowを強制的にvisibleに */
+}
+
+.flower-container {
+    border: 3px solid green !important;
+    background: rgba(0, 255, 0, 0.1) !important;
+    overflow: visible !important;
+}
+
+.flower-svg-container {
+    border: 3px solid blue !important;
+    background: rgba(0, 0, 255, 0.1) !important;
+    overflow: visible !important; /* SVGコンテナのoverflowを可視化 */
+}
+
+.flower-svg {
+    border: 3px solid purple !important;
+    background: rgba(255, 0, 255, 0.1) !important;
+    overflow: visible !important; /* SVG要素のoverflowを可視化 */
+}
+
+/* SVG内の要素を強調表示 */
+svg {
+    border: 2px solid orange !important;
+    background: rgba(255, 165, 0, 0.1) !important;
+    overflow: visible !important; /* SVGのoverflowを強制的にvisible */
+}
+
+/* 花びらを強調表示 */
+.petal {
+    stroke: rgba(255, 255, 255, 0.8) !important;
+    stroke-width: 1 !important;
+}
+
+/* デバッグ情報パネル */
+.debug-panel {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    padding: 15px;
+    border-radius: 8px;
+    font-family: monospace;
+    font-size: 12px;
+    z-index: 10000;
+    max-width: 300px;
+    border: 2px solid #00ff00;
+    box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
+}
+
+.debug-panel h3 {
+    margin: 0 0 10px 0;
+    color: #00ff00;
+    border-bottom: 1px solid #00ff00;
+    padding-bottom: 5px;
+}
+
+.debug-panel .debug-item {
+    margin: 5px 0;
+    padding: 3px;
+    border-left: 3px solid #666;
+    padding-left: 8px;
+}
+
+.debug-panel .debug-item.active {
+    border-left-color: #00ff00;
+    background: rgba(0, 255, 0, 0.1);
+}
+
+/* 色別の説明ラベル */
+.debug-legend {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    padding: 15px;
+    border-radius: 8px;
+    font-family: monospace;
+    font-size: 12px;
+    z-index: 10000;
+    border: 2px solid #ffffff;
+}
+
+.debug-legend h3 {
+    margin: 0 0 10px 0;
+    color: #ffffff;
+    border-bottom: 1px solid #ffffff;
+    padding-bottom: 5px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    margin: 5px 0;
+}
+
+.legend-color {
+    width: 20px;
+    height: 15px;
+    margin-right: 10px;
+    border: 1px solid #666;
+}
+
+/* すべての要素にBoxShadowを追加して範囲を明確化 */
+.flower-section * {
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2) !important;
+}
+
+/* アニメーション中の要素も可視化 */
+[style*="transform"] {
+    outline: 2px dashed cyan !important;
+}
+
+/* 対象外の要素が原因でoverflow hiddenになっている可能性があるため全体を確認 */
+* {
+    overflow: visible !important;
+}
+
+/* 特に重要なSVG関連要素を強調 */
+.flower-svg, .flower-svg-container {
+    overflow: visible !important;
+    position: relative !important;
+}
+
+/* 飛行中の花びら（SVG）を強調表示 */
+svg[style*="position: fixed"][style*="z-index: 10000"] {
+    outline: 3px solid lime !important;
+    box-shadow: 0 0 15px rgba(0, 255, 0, 0.8) !important;
+}
+
+/* 飛行中の花びら（div要素）も対応 */
+div[style*="position: fixed"][style*="z-index: 10000"] {
+    outline: 3px solid lime !important;
+    box-shadow: 0 0 15px rgba(0, 255, 0, 0.8) !important;
+}
+
+/* bodyとhtmlのoverflowも確認 */
+html, body {
+    overflow-x: auto !important;
+    overflow-y: auto !important;
+}

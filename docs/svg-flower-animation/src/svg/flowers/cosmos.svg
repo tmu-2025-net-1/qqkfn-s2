@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+    <circle cx="100" cy="100" r="80" fill="#ff6b9d" />
+    <path d="M100 20 L120 80 L180 80 L130 120 L150 180 L100 140 L50 180 L70 120 L20 80 L80 80 Z" fill="#ff8fab" />
+    <text x="50%" y="90%" text-anchor="middle" fill="#ffffff" font-size="24" font-family="Arial" opacity="0">
+        Cosmos
+        <animate attributeName="opacity" from="0" to="1" begin="0s" dur="1s" fill="freeze" />
+        <animate attributeName="transform" from="translate(0, 20)" to="translate(0, 0)" begin="0s" dur="1s" fill="freeze" />
+    </text>
+</svg>
