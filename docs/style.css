@@ -465,6 +465,15 @@ body {
     width: 100%;
     max-width: 400px;
     height: auto;
+    border: none;
+    outline: none;
+    overflow: visible;
+}
+
+.name-svg-fallback {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
 }
 
 .flower-text {

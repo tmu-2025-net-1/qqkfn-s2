@@ -28,15 +28,12 @@
             </div>
             
             <div class="flower-container">
-                <!-- 花の名前（手書きSVGテキスト風） -->
+                <!-- 花の名前（ajisai.svg） -->
                 <div class="flower-name">
-                    <svg viewBox="0 0 300 80" class="name-svg">
-                        <!-- 紫陽花のSVGテキスト（プレースホルダー） -->
-                        <path class="stroke-path" d="M20 40 Q40 20 60 40 T100 40" stroke="#6B73FF" stroke-width="3" fill="none"/>
-                        <text x="20" y="50" class="flower-text">紫陽花</text>
-                        <!-- 小さな花のアイコン -->
-                        <circle class="flower-icon" cx="250" cy="30" r="8" fill="#9b59b6"/>
-                    </svg>
+                    <object class="name-svg" data="images/ajisai.svg" type="image/svg+xml">
+                        <!-- フォールバック用 -->
+                        <img src="images/ajisai.svg" alt="あじさい" class="name-svg-fallback"/>
+                    </object>
                 </div>
                 
                 <!-- 花のSVG -->
