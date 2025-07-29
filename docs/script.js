@@ -155,17 +155,6 @@ class ScrollAnimations {
     }
     
     setupScrollTriggers() {
-        // 背景色データ
-        const backgroundColors = {
-            default: 'linear-gradient(45deg, #1a1a2e, #16213e, #0f3460)',
-            hydrangea: 'linear-gradient(135deg, rgba(107, 115, 255, 0.3) 0%, rgba(155, 89, 182, 0.4) 100%)',
-            cosmos: 'linear-gradient(135deg, rgba(255, 107, 157, 0.3) 0%, rgba(231, 76, 60, 0.4) 100%)',
-            tulip: 'linear-gradient(135deg, rgba(255, 149, 0, 0.3) 0%, rgba(230, 126, 34, 0.4) 100%)',
-            sunflower: 'linear-gradient(135deg, rgba(255, 215, 0, 0.3) 0%, rgba(241, 196, 15, 0.4) 100%)',
-            nemophila: 'linear-gradient(135deg, rgba(52, 152, 219, 0.3) 0%, rgba(52, 152, 219, 0.4) 100%)',
-            northpole: 'linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(236, 240, 241, 0.5) 100%)'
-        };
-
         this.sections.forEach((section, index) => {
             // デバッグ用の状態表示要素を追加（再利用可能 - デバッグ時にコメントを外す）
             // this.addDebugIndicator(section, index);
@@ -178,24 +167,37 @@ class ScrollAnimations {
                 toggleClass: {targets: section, className: "active"}, // 範囲内にある間 'active' クラスを付与
                 id: `section-${index}-${section.dataset.flower}`, // デバッグ用ID
                 onToggle: (self) => {
+                    // 詳細ログ出力（再利用可能 - デバッグ時にコメントを外す）
+                    // console.log(`🎯 ScrollTrigger Toggle - セクション ${index + 1} (${section.dataset.flower}):`, {
+                    //     isActive: self.isActive,
+                    //     progress: self.progress,
+                    //     direction: self.direction,
+                    //     start: self.start,
+                    //     end: self.end
+                    // });
+                    
                     if (self.isActive) {
                         this.activateSection(section, index);
-                        // 背景色を滑らかに変更
-                        document.body.style.background = backgroundColors[section.dataset.flower] || backgroundColors.default;
                     } else {
                         this.deactivateSection(section);
-                        // 前後のセクションの状態に基づいて背景色を決定
-                        const prevSection = this.sections[index - 1];
-                        const nextSection = this.sections[index + 1];
-                        if (self.direction === -1 && prevSection && prevSection.classList.contains('active')) {
-                            // 上にスクロールして前のセクションがアクティブな場合
-                            document.body.style.background = backgroundColors[prevSection.dataset.flower] || backgroundColors.default;
-                        } else if (self.direction === 1 && !nextSection) {
-                            // 最後のセクションを下にスクロールして離れた場合
-                             document.body.style.background = backgroundColors.default;
-                        }
                     }
+                    
+                    // デバッグインジケーターを更新（再利用可能 - デバッグ時にコメントを外す）
+                    // this.updateDebugIndicator(section, self.isActive);
                 }
+                // 詳細イベントログ（再利用可能 - デバッグ時にコメントを外す）
+                // onEnter: () => {
+                //     console.log(`⬇️ ScrollTrigger Enter - セクション ${index + 1} (${section.dataset.flower})`);
+                // },
+                // onLeave: () => {
+                //     console.log(`⬆️ ScrollTrigger Leave - セクション ${index + 1} (${section.dataset.flower})`);
+                // },
+                // onEnterBack: () => {
+                //     console.log(`⬆️ ScrollTrigger EnterBack - セクション ${index + 1} (${section.dataset.flower})`);
+                // },
+                // onLeaveBack: () => {
+                //     console.log(`⬇️ ScrollTrigger LeaveBack - セクション ${index + 1} (${section.dataset.flower})`);
+                // }
             });
             
             // 花の名前のストロークアニメーション
@@ -278,6 +280,39 @@ class ScrollAnimations {
                 }
             });
         });
+        
+        // 紫陽花セクション専用：スクロールのたびに花言葉をランダム再配置
+        const hydrangeaSection = document.querySelector('.flower-section[data-flower="hydrangea"]');
+        if (hydrangeaSection) {
+            ScrollTrigger.create({
+                trigger: hydrangeaSection,
+                start: "top center",
+                end: "bottom center",
+                onEnter: () => {
+                    this.randomizeHanakotobaForHydrangea();
+                },
+                onEnterBack: () => {
+                    this.randomizeHanakotobaForHydrangea();
+                }
+            });
+        }
+    }
+    
+    randomizeHanakotobaForHydrangea() {
+        // 紫陽花セクションの花言葉をランダムに再配置
+        const hydrangeaSection = document.querySelector('.flower-section[data-flower="hydrangea"]');
+        if (!hydrangeaSection) return;
+        
+        const hanakotobaWords = hydrangeaSection.querySelectorAll('.hanakotoba-word, .hanakotoba-vertical');
+        
+        hanakotobaWords.forEach((wordElement, index) => {
+            // 少し遅延を加えて順次変更
+            setTimeout(() => {
+                this.positionHanakotobaWordRandomly(wordElement, index);
+            }, index * 100);
+        });
+        
+        console.log('🌸 紫陽花の花言葉をランダムに再配置しました');
     }
     
     setupPoemRandomPosition() {
@@ -385,36 +420,40 @@ class ScrollAnimations {
         // レスポンシブに対応した配置範囲の計算（詩とは異なる位置、各単語も重ならないように配置）
         let leftRange, topRange, maxHeight;
         
+        // 最初の花言葉（「変わりやすい心」）をより上に配置
+        const isFirstWord = index === 0;
+        const topOffset = isFirstWord ? -10 : 0; // 最初の花言葉を10%上に
+        
         if (windowWidth <= 480) {
             // スマートフォン - 縦に並べる
             leftRange = { min: 5, max: 25 };
             topRange = { 
-                min: 20 + (index * 25), 
-                max: 35 + (index * 25) 
+                min: Math.max(5, 20 + (index * 25) + topOffset), 
+                max: Math.max(20, 35 + (index * 25) + topOffset) 
             };
             maxHeight = Math.min(200, windowHeight * 0.45);
         } else if (windowWidth <= 768) {
             // タブレット - 少し広がりを持たせる
             leftRange = { min: 8, max: 35 };
             topRange = { 
-                min: 15 + (index * 20), 
-                max: 30 + (index * 20) 
+                min: Math.max(5, 15 + (index * 20) + topOffset), 
+                max: Math.max(20, 30 + (index * 20) + topOffset) 
             };
             maxHeight = Math.min(250, windowHeight * 0.5);
         } else if (windowWidth <= 1024) {
             // 小さなデスクトップ - より自由な配置
             leftRange = { min: 10, max: 40 };
             topRange = { 
-                min: 10 + (index * 18), 
-                max: 25 + (index * 18) 
+                min: Math.max(3, 10 + (index * 18) + topOffset), 
+                max: Math.max(18, 25 + (index * 18) + topOffset) 
             };
             maxHeight = Math.min(280, windowHeight * 0.6);
         } else {
             // デスクトップ - 最も自由な配置
             leftRange = { min: 12, max: 45 };
             topRange = { 
-                min: 8 + (index * 15), 
-                max: 20 + (index * 15) 
+                min: Math.max(2, 8 + (index * 15) + topOffset), 
+                max: Math.max(15, 20 + (index * 15) + topOffset) 
             };
             maxHeight = Math.min(300, windowHeight * 0.6);
         }
@@ -426,24 +465,40 @@ class ScrollAnimations {
         // 要素の高さを動的に調整
         const adjustedHeight = Math.min(maxHeight, windowHeight * 0.4);
         
-        // CSS変数を使用して位置を設定
+        // ランダムなフォントサイズ (18px〜30px)
+        const randomFontSize = 18 + Math.random() * (30 - 18);
+        
+        // ランダムな透明度 (50%〜80%)
+        const randomOpacity = 0.5 + Math.random() * (0.8 - 0.5);
+        
+        // CSS変数を使用して位置とスタイルを設定
         wordElement.style.left = `${randomLeft}%`;
         wordElement.style.top = `${randomTop}%`;
         wordElement.style.height = `${adjustedHeight}px`;
+        wordElement.style.fontSize = `${randomFontSize}px`;
+        wordElement.style.opacity = randomOpacity;
         
-        // 花言葉の文字サイズも調整
+        // random-styleクラスを追加してトランジション効果を適用
+        wordElement.classList.add('random-style');
+        
+        // レスポンシブ時のベースフォントサイズも維持（ランダムサイズに上書きされる）
         if (windowWidth <= 360) {
-            wordElement.style.fontSize = '11px';
+            // 最小サイズは保持しつつランダム化
+            const minSize = 11;
+            const adjustedRandomSize = Math.max(minSize, randomFontSize * 0.7);
+            wordElement.style.fontSize = `${adjustedRandomSize}px`;
         } else if (windowWidth <= 480) {
-            wordElement.style.fontSize = '12px';
+            const minSize = 12;
+            const adjustedRandomSize = Math.max(minSize, randomFontSize * 0.8);
+            wordElement.style.fontSize = `${adjustedRandomSize}px`;
         } else if (windowWidth <= 768) {
-            wordElement.style.fontSize = '14px';
-        } else {
-            wordElement.style.fontSize = '16px';
+            const minSize = 14;
+            const adjustedRandomSize = Math.max(minSize, randomFontSize * 0.9);
+            wordElement.style.fontSize = `${adjustedRandomSize}px`;
         }
         
         // デバッグ用ログ（開発時にコメントアウト可能）
-        console.log(`🌺 花言葉${index + 1}の配置: left: ${randomLeft.toFixed(1)}%, top: ${randomTop.toFixed(1)}%, height: ${adjustedHeight}px`);
+        console.log(`🌺 花言葉${index + 1}の配置: left: ${randomLeft.toFixed(1)}%, top: ${randomTop.toFixed(1)}%, fontSize: ${randomFontSize.toFixed(1)}px, opacity: ${randomOpacity.toFixed(2)}`);
     }
     
     updateFlowerColors(objectElement, progress, flowerType) {
@@ -503,6 +558,9 @@ class ScrollAnimations {
         section.classList.add('active');
         this.currentSection = index;
         
+        // 花言葉の順次アニメーションを開始
+        this.animateHanakotobaSequentially(section, true);
+        
         // 基本ログ（再利用可能 - デバッグ時にコメントを外す）
         // console.log(`✨ セクション ${index + 1} (${section.dataset.flower}) がアクティブになりました`);
         
@@ -542,6 +600,10 @@ class ScrollAnimations {
     
     deactivateSection(section) {
         section.classList.remove('active');
+        
+        // 花言葉の順次非表示アニメーションを開始
+        this.animateHanakotobaSequentially(section, false);
+        
         // console.log(`💤 セクション (${section.dataset.flower}) が非アクティブになりました`);
     }
 
@@ -620,6 +682,39 @@ class ScrollAnimations {
     //         <div>⏱️ ${new Date().toLocaleTimeString()}</div>
     //     `;
     // }
+
+    // 花言葉の順次アニメーション
+    animateHanakotobaSequentially(section, isVisible) {
+        const hanakotobaWords = section.querySelectorAll('.hanakotoba-word, .hanakotoba-vertical');
+        const meaningLines = section.querySelectorAll('.meaning-line');
+        
+        if (isVisible) {
+            // 順次表示
+            hanakotobaWords.forEach((word, index) => {
+                setTimeout(() => {
+                    word.classList.remove('hidden');
+                    word.classList.add('visible');
+                }, index * 300); // 300ms間隔で順次表示
+            });
+            
+            // 花言葉の各行も順次表示
+            meaningLines.forEach((line, index) => {
+                setTimeout(() => {
+                    line.classList.remove('hidden');
+                    line.classList.add('visible');
+                }, (hanakotobaWords.length * 300) + (index * 200)); // 花言葉の後に表示
+            });
+        } else {
+            // 順次非表示（逆順）
+            const allElements = [...hanakotobaWords, ...meaningLines];
+            allElements.reverse().forEach((element, index) => {
+                setTimeout(() => {
+                    element.classList.remove('visible');
+                    element.classList.add('hidden');
+                }, index * 150); // 150ms間隔で順次非表示
+            });
+        }
+    }
 }
 
 /* ============================================
@@ -1091,6 +1186,158 @@ class ParticleSystem {
 }
 
 /* ============================================
+   紫陽花クリック時の花びら落下システム
+============================================ */
+
+class HydrangeaClickSystem {
+    constructor() {
+        this.generatedPetals = [];
+        this.isHydrangeaActive = false;
+        this.init();
+    }
+    
+    init() {
+        this.setupHydrangeaClickHandler();
+        this.setupSectionObserver();
+    }
+    
+    setupHydrangeaClickHandler() {
+        // 紫陽花のSVGにクリックイベントを追加
+        const hydrangeaSection = document.querySelector('.flower-section[data-flower="hydrangea"]');
+        if (!hydrangeaSection) return;
+        
+        const hydrangeaSvg = hydrangeaSection.querySelector('.flower-svg, .flower-svg-fallback');
+        if (!hydrangeaSvg) return;
+        
+        hydrangeaSvg.addEventListener('click', (e) => {
+            this.generateClickPetal(e);
+        });
+        
+        // SVGオブジェクトの場合の処理
+        const svgObject = hydrangeaSection.querySelector('.flower-svg');
+        if (svgObject && svgObject.tagName === 'OBJECT') {
+            svgObject.addEventListener('load', () => {
+                try {
+                    const svgDoc = svgObject.contentDocument;
+                    if (svgDoc) {
+                        svgDoc.addEventListener('click', (e) => {
+                            this.generateClickPetal(e);
+                        });
+                    }
+                } catch (error) {
+                    console.log('SVG content access limited, using fallback click handler');
+                }
+            });
+        }
+    }
+    
+    setupSectionObserver() {
+        // 紫陽花セクションの状態を監視
+        const hydrangeaSection = document.querySelector('.flower-section[data-flower="hydrangea"]');
+        if (!hydrangeaSection) return;
+        
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                    const isActive = hydrangeaSection.classList.contains('active');
+                    this.isHydrangeaActive = isActive;
+                    
+                    // セクションが非アクティブになったら花びらをフェードアウト
+                    if (!isActive) {
+                        this.fadeOutAllPetals();
+                    }
+                }
+            });
+        });
+        
+        observer.observe(hydrangeaSection, { attributes: true });
+    }
+    
+    generateClickPetal(event) {
+        if (!this.isHydrangeaActive) return;
+        
+        // 紫陽花の花の中央位置を取得
+        const hydrangeaSection = document.querySelector('.flower-section[data-flower="hydrangea"]');
+        const flowerSvg = hydrangeaSection.querySelector('.flower-svg, .flower-svg-fallback');
+        
+        if (!flowerSvg) return;
+        
+        const rect = flowerSvg.getBoundingClientRect();
+        // 花の中央位置を計算
+        const x = rect.left + rect.width / 2;
+        const y = rect.top + rect.height / 2;
+        
+        // 複数の花びらを生成（1-3個のランダム）
+        const petalCount = Math.floor(Math.random() * 3) + 1;
+        
+        for (let i = 0; i < petalCount; i++) {
+            setTimeout(() => {
+                this.createFallingPetal(x, y, i);
+            }, i * 150); // 少しずつタイミングをずらす
+        }
+    }
+    
+    createFallingPetal(x, y, index) {
+        const petal = document.createElement('img');
+        petal.src = 'images/hydrangea-petals.svg';
+        petal.alt = '落下する紫陽花の花びら';
+        petal.className = 'click-generated-petal';
+        
+        // 花の中央付近の暗い部分から出現するように位置を調整
+        // より小さな範囲でランダムにずらす（花の中心部に集中）
+        const offsetX = (Math.random() - 0.5) * 30; // ±15px（より狭い範囲）
+        const offsetY = (Math.random() - 0.5) * 20; // ±10px（より狭い範囲）
+        
+        petal.style.left = (x + offsetX) + 'px';
+        petal.style.top = (y + offsetY) + 'px';
+        
+        // シンプルなランダム要素でスムーズなアニメーションを実現
+        const initialRotation = Math.random() * 360;
+        const animationDuration = 3.5 + Math.random() * 1; // 3.5-4.5秒のランダム
+        const horizontalDrift = (Math.random() - 0.5) * 60; // ±30pxの風の影響
+        const rotationAmount = 180 + Math.random() * 360; // 180-540度の回転
+        
+        petal.style.transform = `rotate(${initialRotation}deg)`;
+        petal.style.animationDuration = `${animationDuration}s`;
+        
+        // シンプルなCSS変数設定
+        petal.style.setProperty('--drift-x', horizontalDrift + 'px');
+        petal.style.setProperty('--rotation-speed', rotationAmount + 'deg');
+        
+        // 花びらをDOMに追加
+        document.body.appendChild(petal);
+        this.generatedPetals.push(petal);
+        
+        // アニメーション終了後に削除
+        setTimeout(() => {
+            this.removePetal(petal);
+        }, animationDuration * 1000 + 500);
+    }
+    
+    removePetal(petal) {
+        if (petal && petal.parentNode) {
+            petal.parentNode.removeChild(petal);
+            const index = this.generatedPetals.indexOf(petal);
+            if (index > -1) {
+                this.generatedPetals.splice(index, 1);
+            }
+        }
+    }
+    
+    fadeOutAllPetals() {
+        this.generatedPetals.forEach(petal => {
+            if (petal && petal.parentNode) {
+                petal.classList.add('fade-out-petal');
+                // フェードアウト後に削除
+                setTimeout(() => {
+                    this.removePetal(petal);
+                }, 2000);
+            }
+        });
+    }
+}
+
+/* ============================================
    メイン実行
 ============================================ */
 
@@ -1102,6 +1349,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const scrollAnimations = new ScrollAnimations();
     const flowerInteractions = new FlowerInteractions();
     const particleSystem = new ParticleSystem();
+    const hydrangeaClickSystem = new HydrangeaClickSystem(); // 紫陽花クリックシステムを追加
     
     console.log('✨ 初期化完了！');
     
@@ -1110,6 +1358,56 @@ document.addEventListener('DOMContentLoaded', () => {
     scrollIndicator.className = 'scroll-indicator';
     scrollIndicator.innerHTML = '↓ スクロールして花を探索 ↓';
     document.body.appendChild(scrollIndicator);
+    
+    // 詩のテキストのスクロールブラーエフェクト
+    const poemContainers = document.querySelectorAll('.poem-text-container');
+    let scrollBlurTimer;
+    
+    function updatePoemBlur() {
+        const scrollY = window.scrollY;
+        const windowHeight = window.innerHeight;
+        
+        poemContainers.forEach(container => {
+            const section = container.closest('.flower-section');
+            if (!section) return;
+            
+            const sectionRect = section.getBoundingClientRect();
+            const sectionTop = sectionRect.top;
+            const sectionBottom = sectionRect.bottom;
+            
+            // セクションが画面内にある場合のブラー計算
+            if (sectionTop < windowHeight && sectionBottom > 0) {
+                // セクションの中心からの距離を計算
+                const sectionCenter = sectionTop + sectionRect.height / 2;
+                const windowCenter = windowHeight / 2;
+                const distanceFromCenter = Math.abs(sectionCenter - windowCenter);
+                const maxDistance = windowHeight / 2;
+                
+                // 距離に基づいてブラー値を計算（0-5px）
+                const blurAmount = Math.min(5, (distanceFromCenter / maxDistance) * 5);
+                const opacityAmount = Math.max(0.3, 1 - (distanceFromCenter / maxDistance) * 0.7);
+                
+                container.style.filter = `blur(${blurAmount}px)`;
+                container.style.opacity = opacityAmount;
+                
+                // ブラー値が2px以上の場合はクラスを追加
+                if (blurAmount >= 2) {
+                    container.classList.add('scroll-blur');
+                } else {
+                    container.classList.remove('scroll-blur');
+                }
+            }
+        });
+    }
+    
+    // スクロールイベントリスナー（スロットリング付き）
+    window.addEventListener('scroll', () => {
+        clearTimeout(scrollBlurTimer);
+        scrollBlurTimer = setTimeout(updatePoemBlur, 10);
+    });
+    
+    // 初期状態を設定
+    updatePoemBlur();
     
     // インジケーターをスクロール時に非表示
     window.addEventListener('scroll', () => {
