@@ -1441,4 +1441,170 @@ window.addEventListener('load', () => {
         duration: 1,
         ease: "power2.out"
     });
+    
+    // あじさいのアニメーションを初期化
+    initializeAjisaiAnimation();
 });
+
+/* ============================================
+   あじさい自転アニメーション制御
+============================================ */
+
+function initializeAjisaiAnimation() {
+    // 数秒待ってからSVGの処理を開始（ページ読み込み完了を確実にするため）
+    setTimeout(() => {
+        processAjisaiSvg();
+    }, 500);
+}
+
+function processAjisaiSvg() {
+    // objectタグでajisai.svgを使用している要素を探す
+    const objectElements = document.querySelectorAll('object[data*="ajisai.svg"]');
+    
+    objectElements.forEach(objectElement => {
+        // objectが読み込まれるのを待つ
+        const checkSvgLoaded = () => {
+            try {
+                const svgDoc = objectElement.contentDocument;
+                if (svgDoc && svgDoc.documentElement.tagName.toLowerCase() === 'svg') {
+                    applyAjisaiAnimation(svgDoc.documentElement);
+                    return true;
+                }
+            } catch (e) {
+                // アクセス権限がない場合、SVGを直接読み込んで置き換える
+                loadAndReplaceSvg(objectElement);
+                return true;
+            }
+            return false;
+        };
+        
+        // SVGが既に読み込まれているかチェック
+        if (!checkSvgLoaded()) {
+            // まだ読み込まれていない場合、loadイベントを待つ
+            objectElement.addEventListener('load', checkSvgLoaded);
+            
+            // タイムアウト後にフォールバック処理
+            setTimeout(() => {
+                if (!checkSvgLoaded()) {
+                    loadAndReplaceSvg(objectElement);
+                }
+            }, 2000);
+        }
+    });
+    
+    // 既に埋め込まれているSVGもチェック
+    checkInlineSvgs();
+}
+
+function loadAndReplaceSvg(objectElement) {
+    const svgUrl = objectElement.getAttribute('data');
+    
+    fetch(svgUrl)
+        .then(response => response.text())
+        .then(svgText => {
+            const parser = new DOMParser();
+            const svgDoc = parser.parseFromString(svgText, 'image/svg+xml');
+            const svgElement = svgDoc.documentElement.cloneNode(true);
+            
+            // 元のobject要素のクラスとスタイルをSVGに適用
+            if (objectElement.className) {
+                svgElement.setAttribute('class', objectElement.className);
+            }
+            if (objectElement.style.cssText) {
+                svgElement.style.cssText = objectElement.style.cssText;
+            }
+            
+            // object要素をSVGに置き換え
+            objectElement.parentNode.replaceChild(svgElement, objectElement);
+            
+            // アニメーションを適用
+            applyAjisaiAnimation(svgElement);
+        })
+        .catch(error => {
+            console.warn('ajisai.svgの読み込みに失敗しました:', error);
+        });
+}
+
+function checkInlineSvgs() {
+    const svgElements = document.querySelectorAll('svg');
+    svgElements.forEach(svg => {
+        // ajisai.svgの特徴的な要素があるかチェック
+        if (svg.querySelector('ellipse.cls-5') || svg.querySelector('ellipse.cls-21') || 
+            svg.querySelector('ellipse.cls-4') || svg.querySelector('ellipse.cls-14')) {
+            applyAjisaiAnimation(svg);
+        }
+    });
+}
+
+function applyAjisaiAnimation(svgElement) {
+    console.log('あじさい花全体の自転アニメーションを適用中...', svgElement);
+    
+    // 花全体を包含するグループを特定（209-305行目に該当する最後のメイングループ）
+    const flowerGroups = svgElement.querySelectorAll('g > g');
+    
+    if (flowerGroups.length >= 2) {
+        // 最後の2つのグループ（外側と内側の花びら）の親グループを取得
+        const lastGroup = flowerGroups[flowerGroups.length - 1];
+        const secondLastGroup = flowerGroups[flowerGroups.length - 2];
+        
+        // 共通の親グループを見つける
+        let flowerContainer = lastGroup.parentElement;
+        
+        // 花全体のコンテナにアニメーションクラスを適用
+        if (flowerContainer && flowerContainer.tagName.toLowerCase() === 'g') {
+            flowerContainer.classList.add('ajisai-flower-rotate');
+            console.log('花全体のコンテナにアニメーションクラスを適用');
+        }
+    } else {
+        // 代替方法：SVG内の最後のメイングループを取得
+        const mainGroups = svgElement.querySelectorAll(':scope > g');
+        if (mainGroups.length > 0) {
+            const lastMainGroup = mainGroups[mainGroups.length - 1];
+            lastMainGroup.classList.add('ajisai-flower-rotate');
+            console.log('メイングループ（代替方法）にアニメーションクラスを適用');
+        }
+    }
+    
+    // GSAPによる代替アニメーション（CSSアニメーションのサポート）
+    applyGsapAnimation(svgElement);
+}
+
+function applyGsapAnimation(svgElement) {
+    // 花全体のコンテナを特定
+    let flowerContainer = null;
+    
+    // まず最後のメイングループを試す
+    const mainGroups = svgElement.querySelectorAll(':scope > g');
+    if (mainGroups.length > 0) {
+        flowerContainer = mainGroups[mainGroups.length - 1];
+    }
+    
+    console.log('GSAP花全体アニメーションを適用中...', flowerContainer);
+    
+    if (flowerContainer) {
+        // 花全体を10秒で時計回りに回転
+        gsap.to(flowerContainer, {
+            rotation: 360,
+            duration: 10,
+            repeat: -1,
+            ease: "none",
+            transformOrigin: "center center",
+            svgOrigin: "67 9.5" // SVG座標系での中心点
+        });
+        console.log('花全体にGSAPアニメーションを適用');
+    } else {
+        // フォールバック：すべての楕円要素をグループとして回転
+        const allEllipses = svgElement.querySelectorAll('ellipse');
+        if (allEllipses.length > 0) {
+            gsap.to(allEllipses, {
+                rotation: 360,
+                duration: 10,
+                repeat: -1,
+                ease: "none",
+                transformOrigin: "center center",
+                svgOrigin: "67 9.5"
+            });
+            console.log('全楕円要素にGSAPアニメーションを適用（フォールバック）');
+        }
+    }
+}

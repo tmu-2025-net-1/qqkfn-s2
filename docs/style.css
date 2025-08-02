@@ -1377,3 +1377,50 @@ body::before {
         transform: translateX(-50%) translateY(-5px);
     }
 }
+
+/* ============================================
+   あじさい自転アニメーション
+============================================ */
+
+/* あじさいの花びら自転アニメーション */
+@-webkit-keyframes ajisaiRotate {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+@-moz-keyframes ajisaiRotate {
+    0% {
+        -moz-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -moz-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes ajisaiRotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* あじさい全体の自転アニメーション設定 */
+.ajisai-flower-rotate {
+    -webkit-animation: ajisaiRotate 10s linear infinite;
+    -moz-animation: ajisaiRotate 10s linear infinite;
+    animation: ajisaiRotate 10s linear infinite;
+    -webkit-transform-origin: 67px 9.5px;
+    -moz-transform-origin: 67px 9.5px;
+    transform-origin: 67px 9.5px; /* 花の中心点 */
+    transform-box: fill-box;
+}
