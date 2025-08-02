@@ -450,19 +450,6 @@ body {
     z-index: 2;
 }
 
-/* フルスクリーン・大画面での花コンテナ調整 */
-@media (min-width: 1440px) {
-    .flower-container {
-        max-width: 1000px;
-    }
-}
-
-@media (min-width: 1920px) {
-    .flower-container {
-        max-width: 1200px;
-    }
-}
-
 /* ============================================
    花の名前（手書きSVGテキスト風）
 ============================================ */
@@ -487,27 +474,6 @@ body {
     width: 100%;
     max-width: 400px;
     height: auto;
-}
-
-/* フルスクリーンでの花の名前サイズ調整 */
-@media (min-width: 1440px) {
-    .name-svg {
-        max-width: 500px;
-    }
-    
-    .name-svg-fallback {
-        max-width: 500px;
-    }
-}
-
-@media (min-width: 1920px) {
-    .name-svg {
-        max-width: 600px;
-    }
-    
-    .name-svg-fallback {
-        max-width: 600px;
-    }
 }
 
 .flower-text {
@@ -580,27 +546,6 @@ body {
     position: relative;
     z-index: 15;
     cursor: url('./images/cursor2.svg') 2 2, pointer;
-}
-
-/* フルスクリーンでの花のSVGサイズ調整 */
-@media (min-width: 1440px) {
-    .flower-svg {
-        max-width: 380px;
-    }
-    
-    .flower-svg-fallback {
-        max-width: 380px;
-    }
-}
-
-@media (min-width: 1920px) {
-    .flower-svg {
-        max-width: 450px;
-    }
-    
-    .flower-svg-fallback {
-        max-width: 450px;
-    }
 }
 
 .flower-svg:hover {
@@ -998,78 +943,6 @@ body {
     }
 }
 
-/* フルスクリーン・大画面対応 */
-@media (min-width: 1440px) {
-    .hanakotoba-vertical {
-        font-size: 18px;
-        height: 55vh;
-        max-height: 400px;
-        line-height: 2.4;
-        /* より左に配置 */
-        left: 8%;
-        top: 18%;
-    }
-    
-    .hanakotoba-word {
-        font-size: 22px;
-        height: 65vh;
-        max-height: 450px;
-        line-height: 1.3;
-    }
-    
-    /* 花言葉の個別配置をより分散 */
-    .hanakotoba-word-1 {
-        left: 5%;
-        top: 10%;
-    }
-    
-    .hanakotoba-word-2 {
-        left: 12%;
-        top: 40%;
-    }
-    
-    .hanakotoba-word-3 {
-        left: 8%;
-        top: 70%;
-    }
-}
-
-/* 超大画面対応（4K、ウルトラワイドなど） */
-@media (min-width: 1920px) {
-    .hanakotoba-vertical {
-        font-size: 20px;
-        height: 60vh;
-        max-height: 500px;
-        line-height: 2.6;
-        /* さらに左に配置 */
-        left: 6%;
-        top: 15%;
-    }
-    
-    .hanakotoba-word {
-        font-size: 24px;
-        height: 70vh;
-        max-height: 600px;
-        line-height: 1.4;
-    }
-    
-    /* 花言葉をより広範囲に分散 */
-    .hanakotoba-word-1 {
-        left: 3%;
-        top: 8%;
-    }
-    
-    .hanakotoba-word-2 {
-        left: 10%;
-        top: 35%;
-    }
-    
-    .hanakotoba-word-3 {
-        left: 6%;
-        top: 65%;
-    }
-}
-
 /* 古い花言葉スタイル（フォールバック用） */
 .hanakotoba {
     margin: 30px 0;
@@ -1307,40 +1180,6 @@ body {
     }
 }
 
-/* フルスクリーン・大画面対応 */
-@media (min-width: 1440px) {
-    .poem-text-vertical {
-        font-size: 24px;
-        height: 85vh;
-        max-height: 900px;
-        line-height: 1.3;
-        /* より右に配置してバランスを取る */
-        right: 6%;
-        top: 12%;
-    }
-    
-    .poem-line {
-        margin: 0 1.8em 0 0;
-    }
-}
-
-/* 超大画面対応（4K、ウルトラワイドなど） */
-@media (min-width: 1920px) {
-    .poem-text-vertical {
-        font-size: 26px;
-        height: 88vh;
-        max-height: 1000px;
-        line-height: 1.4;
-        /* さらに右端に配置 */
-        right: 4%;
-        top: 10%;
-    }
-    
-    .poem-line {
-        margin: 0 2em 0 0;
-    }
-}
-
 /* ============================================
    花占いゲーム
 ============================================ */
@@ -1464,37 +1303,6 @@ body {
     
     .flower-svg {
         max-width: 200px;
-    }
-}
-
-/* 大画面・フルスクリーン対応 */
-@media (min-width: 1440px) {
-    .flower-text {
-        font-size: 42px;
-    }
-    
-    .meaning-text {
-        font-size: 20px;
-    }
-    
-    .fortune-btn {
-        padding: 14px 28px;
-        font-size: 18px;
-    }
-}
-
-@media (min-width: 1920px) {
-    .flower-text {
-        font-size: 48px;
-    }
-    
-    .meaning-text {
-        font-size: 22px;
-    }
-    
-    .fortune-btn {
-        padding: 16px 32px;
-        font-size: 20px;
     }
 }
 
