@@ -12,9 +12,7 @@ const hanakotobaDatabase = {
     hydrangea: ['変わりやすい心', '移り気', '家族の結びつき', '辛抱強い愛情'],
     cosmos: ['調和', '謙虚', '美しさ', '乙女の真心'],
     tulip: ['愛の告白', '思いやり', '博愛', '正直'],
-    sunflower: ['憧れ', '熱愛', 'あなただけを見つめる', '情熱'],
-    nemophila: ['可憐', '清々しい心', '成功', '初恋'],
-    northpole: ['誠実', '冬の足音', '清潔', '純粋']
+    sunflower: ['憧れ', '熱愛', 'あなただけを見つめる', '情熱']
 };
 
 // 花占いメッセージ
@@ -281,29 +279,30 @@ class ScrollAnimations {
             });
         });
         
-        // 紫陽花セクション専用：スクロールのたびに花言葉をランダム再配置
-        const hydrangeaSection = document.querySelector('.flower-section[data-flower="hydrangea"]');
-        if (hydrangeaSection) {
+        // すべての花セクション：スクロールのたびに花言葉をランダム再配置
+        const flowerSections = document.querySelectorAll('.flower-section');
+        flowerSections.forEach(section => {
+            const flowerType = section.getAttribute('data-flower');
             ScrollTrigger.create({
-                trigger: hydrangeaSection,
+                trigger: section,
                 start: "top center",
                 end: "bottom center",
                 onEnter: () => {
-                    this.randomizeHanakotobaForHydrangea();
+                    this.randomizeHanakotobaForSection(section);
                 },
                 onEnterBack: () => {
-                    this.randomizeHanakotobaForHydrangea();
+                    this.randomizeHanakotobaForSection(section);
                 }
             });
-        }
+        });
     }
     
-    randomizeHanakotobaForHydrangea() {
-        // 紫陽花セクションの花言葉をランダムに再配置
-        const hydrangeaSection = document.querySelector('.flower-section[data-flower="hydrangea"]');
-        if (!hydrangeaSection) return;
+    randomizeHanakotobaForSection(section) {
+        // 指定されたセクションの花言葉をランダムに再配置
+        if (!section) return;
         
-        const hanakotobaWords = hydrangeaSection.querySelectorAll('.hanakotoba-word, .hanakotoba-vertical');
+        const flowerType = section.getAttribute('data-flower');
+        const hanakotobaWords = section.querySelectorAll('.hanakotoba-word, .hanakotoba-vertical');
         
         hanakotobaWords.forEach((wordElement, index) => {
             // 少し遅延を加えて順次変更
@@ -312,7 +311,7 @@ class ScrollAnimations {
             }, index * 100);
         });
         
-        console.log('🌸 紫陽花の花言葉をランダムに再配置しました');
+        console.log(`🌸 ${flowerType}の花言葉をランダムに再配置しました`);
     }
     
     setupPoemRandomPosition() {
@@ -391,23 +390,27 @@ class ScrollAnimations {
     }
     
     setupHanakotobaRandomPosition() {
-        // 紫陽花セクションの花言葉のランダム配置を設定
-        const hydrangeaSection = document.querySelector('.flower-section[data-flower="hydrangea"]');
-        if (!hydrangeaSection) return;
+        // すべての花セクションの花言葉のランダム配置を設定
+        const flowerSections = document.querySelectorAll('.flower-section');
         
-        const hanakotobaWords = hydrangeaSection.querySelectorAll('.hanakotoba-word');
-        if (!hanakotobaWords.length) return;
-        
-        // 各花言葉を個別にランダム配置
-        hanakotobaWords.forEach((wordElement, index) => {
-            this.positionHanakotobaWordRandomly(wordElement, index);
+        flowerSections.forEach(section => {
+            const hanakotobaWords = section.querySelectorAll('.hanakotoba-word');
+            if (!hanakotobaWords.length) return;
+            
+            // 各花言葉を個別にランダム配置
+            hanakotobaWords.forEach((wordElement, index) => {
+                this.positionHanakotobaWordRandomly(wordElement, index);
+            });
         });
         
         // ウィンドウリサイズ時に再配置
         window.addEventListener('resize', () => {
             setTimeout(() => {
-                hanakotobaWords.forEach((wordElement, index) => {
-                    this.positionHanakotobaWordRandomly(wordElement, index);
+                flowerSections.forEach(section => {
+                    const hanakotobaWords = section.querySelectorAll('.hanakotoba-word');
+                    hanakotobaWords.forEach((wordElement, index) => {
+                        this.positionHanakotobaWordRandomly(wordElement, index);
+                    });
                 });
             }, 100);
         });
@@ -522,9 +525,7 @@ class ScrollAnimations {
             hydrangea: ['#9b59b6', '#8e44ad', '#6B73FF'],
             cosmos: ['#e74c3c', '#c0392b', '#FF6B9D'],
             tulip: ['#e67e22', '#d35400', '#FF9500'],
-            sunflower: ['#f1c40f', '#f39c12', '#FFD700'],
-            nemophila: ['#3498db', '#2980b9', '#87CEEB'],
-            northpole: ['#ffffff', '#ecf0f1', '#f8f9fa']
+            sunflower: ['#f1c40f', '#f39c12', '#FFD700']
         };
         
         const colors = colorMaps[flowerType] || colorMaps.hydrangea;
@@ -736,7 +737,9 @@ class FlowerInteractions {
     
     setupSVGLoading() {
         const objectElements = document.querySelectorAll('.flower-svg');
+        const nameElements = document.querySelectorAll('.name-svg'); // タイポグラフィSVG要素も追加
         
+        // 花のSVGの読み込み処理
         objectElements.forEach((obj, index) => {
             const promise = new Promise((resolve) => {
                 obj.addEventListener('load', () => {
@@ -754,9 +757,27 @@ class FlowerInteractions {
             this.svgLoadPromises.push(promise);
         });
         
+        // タイポグラフィSVGの読み込み処理
+        nameElements.forEach((nameObj, index) => {
+            const promise = new Promise((resolve) => {
+                nameObj.addEventListener('load', () => {
+                    this.onNameSVGLoaded(nameObj);
+                    resolve(nameObj);
+                });
+                
+                // フォールバック: 既に読み込まれている場合
+                if (nameObj.contentDocument) {
+                    this.onNameSVGLoaded(nameObj);
+                    resolve(nameObj);
+                }
+            });
+            
+            this.svgLoadPromises.push(promise);
+        });
+        
         // すべてのSVGが読み込まれた後に追加設定
         Promise.all(this.svgLoadPromises).then(() => {
-            console.log('✨ すべてのSVGファイルが読み込まれました');
+            console.log('✨ すべてのSVGファイル（花 + タイポグラフィ）が読み込まれました');
         });
     }
     
@@ -768,6 +789,19 @@ class FlowerInteractions {
             
             // SVG内の要素に直接アクセスしてイベントを設定
             this.setupSVGInteractions(svgDoc, objectElement);
+        }
+    }
+    
+    onNameSVGLoaded(nameElement) {
+        const svgDoc = nameElement.contentDocument;
+        if (svgDoc) {
+            // タイポグラフィSVG内の要素にアクセス可能になった印を付ける
+            nameElement.classList.add('name-svg-loaded');
+            
+            // タイポグラフィSVG内の要素に直接アクセスしてイベントを設定
+            this.setupNameSVGInteractions(svgDoc, nameElement);
+            
+            console.log('🌸 タイポグラフィSVGが読み込まれました:', nameElement);
         }
     }
     
@@ -801,6 +835,36 @@ class FlowerInteractions {
                 this.onPetalClick(petal, objectElement);
             });
         });
+    }
+    
+    setupNameSVGInteractions(svgDoc, nameElement) {
+        // 花の種類を取得
+        const container = nameElement.closest('.flower-container');
+        const section = container ? container.closest('.flower-section') : null;
+        const flowerType = section ? section.dataset.flower : null;
+        
+        // コスモスまたはチューリップタイポグラフィの花びら要素を取得
+        const petal1 = svgDoc.querySelector('.petal, #petal');
+        const petal2 = svgDoc.querySelector('.petal-2, #petal-2');
+        
+        // 花びらにクリックイベントを設定
+        if (petal1) {
+            petal1.style.cursor = 'pointer';
+            petal1.addEventListener('click', (e) => {
+                e.stopPropagation(); // イベントの伝播を停止
+                this.onTypoPetalClick(petal1, nameElement, 'petal1', flowerType);
+            });
+        }
+        
+        if (petal2) {
+            petal2.style.cursor = 'pointer';
+            petal2.addEventListener('click', (e) => {
+                e.stopPropagation(); // イベントの伝播を停止
+                this.onTypoPetalClick(petal2, nameElement, 'petal2', flowerType);
+            });
+        }
+        
+        console.log(`🌸 ${flowerType}タイポグラフィの花びらにクリックイベントを設定しました`, { petal1: !!petal1, petal2: !!petal2 });
     }
     
     onPetalClick(petal, objectElement) {
@@ -1025,6 +1089,7 @@ class FlowerInteractions {
         
         flowerContainers.forEach(container => {
             const objectElement = container.querySelector('.flower-svg');
+            const nameElement = container.querySelector('.name-svg'); // タイポグラフィSVG要素
             
             container.addEventListener('mouseenter', () => this.onFlowerHover(container));
             container.addEventListener('mouseleave', () => this.onFlowerLeave(container));
@@ -1033,20 +1098,39 @@ class FlowerInteractions {
     
     onFlowerHover(container) {
         const objectElement = container.querySelector('.flower-svg');
+        const nameElement = container.querySelector('.name-svg'); // タイポグラフィSVG要素
+        const section = container.closest('.flower-section');
+        const flowerType = section ? section.dataset.flower : null;
         
         // SVGが読み込まれている場合のみ実行（軽微なエフェクトのみ）
         if (objectElement.classList.contains('flower-svg-loaded')) {
             const svgDoc = objectElement.contentDocument;
             const petals = svgDoc.querySelectorAll('.petal');
             
-            petals.forEach((petal, index) => {
-                gsap.to(petal, {
-                    scale: 1.02,
-                    opacity: 1,
-                    duration: 0.2,
-                    ease: "power2.out"
+            // コスモス専用の回転エフェクト
+            if (flowerType === 'cosmos') {
+                this.startCosmosRotation(svgDoc);
+            } else {
+                // 他の花の通常のエフェクト
+                petals.forEach((petal, index) => {
+                    gsap.to(petal, {
+                        scale: 1.02,
+                        opacity: 1,
+                        duration: 0.2,
+                        ease: "power2.out"
+                    });
                 });
-            });
+            }
+        }
+        
+        // コスモスタイポグラフィの花びら揺れアニメーション
+        if (flowerType === 'cosmos' && nameElement && nameElement.classList.contains('name-svg-loaded')) {
+            this.startCosmosTypoAnimation(nameElement);
+        }
+        
+        // チューリップタイポグラフィの花びら揺れアニメーション
+        if (flowerType === 'tulip' && nameElement && nameElement.classList.contains('name-svg-loaded')) {
+            this.startTulipTypoAnimation(nameElement);
         }
         
         // 花言葉の浮遊アニメーション
@@ -1064,19 +1148,38 @@ class FlowerInteractions {
     
     onFlowerLeave(container) {
         const objectElement = container.querySelector('.flower-svg');
+        const nameElement = container.querySelector('.name-svg'); // タイポグラフィSVG要素
+        const section = container.closest('.flower-section');
+        const flowerType = section ? section.dataset.flower : null;
         
         // SVGが読み込まれている場合のみ実行
         if (objectElement.classList.contains('flower-svg-loaded')) {
             const svgDoc = objectElement.contentDocument;
             const petals = svgDoc.querySelectorAll('.petal');
             
-            petals.forEach(petal => {
-                gsap.to(petal, {
-                    scale: 1,
-                    duration: 0.2,
-                    ease: "power2.out"
+            // コスモス専用の回転停止エフェクト
+            if (flowerType === 'cosmos') {
+                this.stopCosmosRotation(svgDoc);
+            } else {
+                // 他の花の通常のエフェクト
+                petals.forEach(petal => {
+                    gsap.to(petal, {
+                        scale: 1,
+                        duration: 0.2,
+                        ease: "power2.out"
+                    });
                 });
-            });
+            }
+        }
+        
+        // コスモスタイポグラフィの花びら揺れアニメーション停止
+        if (flowerType === 'cosmos' && nameElement && nameElement.classList.contains('name-svg-loaded')) {
+            this.stopCosmosTypoAnimation(nameElement);
+        }
+        
+        // チューリップタイポグラフィの花びら揺れアニメーション停止
+        if (flowerType === 'tulip' && nameElement && nameElement.classList.contains('name-svg-loaded')) {
+            this.stopTulipTypoAnimation(nameElement);
         }
         
         // 花言葉のアニメーション停止
@@ -1093,6 +1196,133 @@ class FlowerInteractions {
         fortuneBtns.forEach(btn => {
             btn.addEventListener('click', (e) => this.startFortune(e));
         });
+    }
+    
+    startCosmosRotation(svgDoc) {
+        // 花全体のコンテナグループを取得（茎を除く）
+        const flowerContainer = this.getCosmosFlowerContainer(svgDoc);
+        
+        if (flowerContainer) {
+            // 花全体を一つのオブジェクトとして自転させる
+            gsap.to(flowerContainer, {
+                rotation: 360,
+                duration: 4, // 4秒で一回転（ゆっくりとした自転）
+                ease: "none",
+                repeat: -1, // 無限リピート
+                transformOrigin: "center center" // 中心を軸にして回転
+            });
+            
+            console.log('🌸 コスモスの花全体が自転を開始しました');
+        } else {
+            // フォールバック：個別の花要素を同時に回転
+            const flowerPetals = svgDoc.querySelectorAll('path:not(.cls-8), ellipse, circle');
+            const centerX = 52.25;
+            const centerY = 54.63;
+            
+            flowerPetals.forEach((petal) => {
+                gsap.to(petal, {
+                    rotation: 360,
+                    duration: 4,
+                    ease: "none",
+                    repeat: -1,
+                    transformOrigin: `${centerX}px ${centerY}px`
+                });
+            });
+            
+            console.log('🌸 コスモスの花びら（フォールバック）が自転を開始しました');
+        }
+    }
+    
+    stopCosmosRotation(svgDoc) {
+        // 花全体のコンテナグループを取得
+        const flowerContainer = this.getCosmosFlowerContainer(svgDoc);
+        
+        if (flowerContainer) {
+            // 花全体のアニメーションを停止
+            gsap.killTweensOf(flowerContainer);
+            gsap.to(flowerContainer, {
+                rotation: 0,
+                duration: 0.8,
+                ease: "power2.out"
+            });
+            
+            console.log('🌸 コスモスの花全体の自転が停止しました');
+        } else {
+            // フォールバック：個別要素のアニメーションを停止
+            const flowerPetals = svgDoc.querySelectorAll('path:not(.cls-8), ellipse, circle');
+            
+            flowerPetals.forEach(petal => {
+                gsap.killTweensOf(petal);
+                gsap.to(petal, {
+                    rotation: 0,
+                    duration: 0.8,
+                    ease: "power2.out"
+                });
+            });
+            
+            console.log('🌸 コスモスの花びら（フォールバック）の自転が停止しました');
+        }
+    }
+    
+    getCosmosFlowerContainer(svgDoc) {
+        // コスモスの花全体を包含するグループを特定
+        // 1. まず、花びら要素（path）を含む親グループを探す
+        const flowerPaths = svgDoc.querySelectorAll('path:not(.cls-8)'); // 茎以外のpath要素
+        
+        if (flowerPaths.length > 0) {
+            // 最初の花びらの親要素をたどって共通の親グループを見つける
+            let commonParent = flowerPaths[0].parentElement;
+            
+            // すべての花びらが同じ親を持つかチェック
+            for (let i = 1; i < flowerPaths.length; i++) {
+                if (flowerPaths[i].parentElement !== commonParent) {
+                    // 異なる親を持つ場合、より上位の共通親を探す
+                    commonParent = this.findCommonParent(flowerPaths[0], flowerPaths[i]);
+                    break;
+                }
+            }
+            
+            // 茎を含まないことを確認
+            if (commonParent && !commonParent.querySelector('.cls-8')) {
+                return commonParent;
+            }
+        }
+        
+        // 2. フォールバック：メインのgroupから茎以外を探す
+        const mainGroups = svgDoc.querySelectorAll('g');
+        for (let group of mainGroups) {
+            const hasFlowerPetals = group.querySelectorAll('path:not(.cls-8), ellipse, circle').length > 0;
+            const hasStem = group.querySelector('.cls-8');
+            
+            if (hasFlowerPetals && !hasStem) {
+                return group;
+            }
+        }
+        
+        return null; // 適切なコンテナが見つからない場合
+    }
+    
+    findCommonParent(element1, element2) {
+        // 2つの要素の共通の親要素を見つける
+        const parents1 = [];
+        let current = element1;
+        
+        // element1の全ての親要素を収集
+        while (current.parentElement) {
+            parents1.push(current.parentElement);
+            current = current.parentElement;
+        }
+        
+        // element2の親要素をたどって最初に見つかった共通親を返す
+        current = element2;
+        while (current.parentElement) {
+            if (parents1.includes(current.parentElement)) {
+                return current.parentElement;
+            }
+            current = current.parentElement;
+        }
+        
+        return null;
     }
     
     startFortune(e) {
@@ -1117,6 +1347,425 @@ class FlowerInteractions {
         
         resultDiv.textContent = '花びらをクリックして占いをしてください';
         resultDiv.classList.add('show');
+    }
+    
+    startCosmosTypoAnimation(nameElement) {
+        // cosmostypo.svgの花びら要素を取得
+        let svgDoc = null;
+        
+        // objectタグの場合
+        if (nameElement.tagName === 'OBJECT') {
+            svgDoc = nameElement.contentDocument;
+        } else if (nameElement.tagName === 'svg' || nameElement.querySelector('svg')) {
+            // インラインSVGの場合
+            svgDoc = nameElement.tagName === 'svg' ? nameElement : nameElement.querySelector('svg');
+        }
+        
+        if (!svgDoc) return;
+        
+        // petal と petal-2 要素を取得（クラス名またはid属性で）
+        const petal1 = svgDoc.querySelector('.petal, #petal');
+        const petal2 = svgDoc.querySelector('.petal-2, #petal-2');
+        
+        if (petal1) {
+            // 花びら1の揺れアニメーション（紫陽花を参考にした自然な揺れ）
+            gsap.to(petal1, {
+                rotation: "+=3",
+                duration: 0.8,
+                ease: "power1.inOut",
+                yoyo: true,
+                repeat: -1,
+                transformOrigin: "center bottom" // 花びらの根元を軸にして揺れる
+            });
+            
+            // 軽微なスケール変化も追加（呼吸するような効果）
+            gsap.to(petal1, {
+                scale: 1.02,
+                duration: 1.2,
+                ease: "power1.inOut",
+                yoyo: true,
+                repeat: -1
+            });
+        }
+        
+        if (petal2) {
+            // 花びら2の揺れアニメーション（少し異なるタイミングで）
+            gsap.to(petal2, {
+                rotation: "-=4",
+                duration: 1.0,
+                ease: "power1.inOut",
+                yoyo: true,
+                repeat: -1,
+                delay: 0.2, // 少し遅延させて自然な動きに
+                transformOrigin: "center bottom"
+            });
+            
+            gsap.to(petal2, {
+                scale: 1.03,
+                duration: 1.4,
+                ease: "power1.inOut",
+                yoyo: true,
+                repeat: -1,
+                delay: 0.1
+            });
+        }
+        
+        console.log('🌸 コスモスタイポグラフィの花びらが揺れ始めました', { petal1: !!petal1, petal2: !!petal2 });
+    }
+    
+    stopCosmosTypoAnimation(nameElement) {
+        // cosmostypo.svgの花びら要素を取得
+        let svgDoc = null;
+        
+        // objectタグの場合
+        if (nameElement.tagName === 'OBJECT') {
+            svgDoc = nameElement.contentDocument;
+        } else if (nameElement.tagName === 'svg' || nameElement.querySelector('svg')) {
+            // インラインSVGの場合
+            svgDoc = nameElement.tagName === 'svg' ? nameElement : nameElement.querySelector('svg');
+        }
+        
+        if (!svgDoc) return;
+        
+        // petal と petal-2 要素を取得
+        const petal1 = svgDoc.querySelector('.petal, #petal');
+        const petal2 = svgDoc.querySelector('.petal-2, #petal-2');
+        
+        if (petal1) {
+            // 花びら1のアニメーション停止
+            gsap.killTweensOf(petal1);
+            gsap.to(petal1, {
+                rotation: 0,
+                scale: 1,
+                duration: 0.6,
+                ease: "power2.out"
+            });
+        }
+        
+        if (petal2) {
+            // 花びら2のアニメーション停止
+            gsap.killTweensOf(petal2);
+            gsap.to(petal2, {
+                rotation: 0,
+                scale: 1,
+                duration: 0.6,
+                ease: "power2.out"
+            });
+        }
+        
+        console.log('🌸 コスモスタイポグラフィの花びらの揺れが停止しました');
+    }
+    
+    startTulipTypoAnimation(nameElement) {
+        // tyurippu.svgの花びら要素を取得
+        let svgDoc = null;
+        
+        // objectタグの場合
+        if (nameElement.tagName === 'OBJECT') {
+            svgDoc = nameElement.contentDocument;
+        } else if (nameElement.tagName === 'svg' || nameElement.querySelector('svg')) {
+            // インラインSVGの場合
+            svgDoc = nameElement.tagName === 'svg' ? nameElement : nameElement.querySelector('svg');
+        }
+        
+        if (!svgDoc) return;
+        
+        // petal と petal-2 要素を取得（クラス名またはid属性で）
+        const petal1 = svgDoc.querySelector('.petal, #petal');
+        const petal2 = svgDoc.querySelector('.petal-2, #petal-2');
+        
+        if (petal1) {
+            // 花びら1の揺れアニメーション（チューリップらしい優雅な動き）
+            gsap.to(petal1, {
+                rotation: "+=4",
+                duration: 1.0,
+                ease: "power1.inOut",
+                yoyo: true,
+                repeat: -1,
+                transformOrigin: "center bottom" // 花びらの根元を軸にして揺れる
+            });
+            
+            // 軽微なスケール変化も追加（花が開くような効果）
+            gsap.to(petal1, {
+                scale: 1.03,
+                duration: 1.5,
+                ease: "power1.inOut",
+                yoyo: true,
+                repeat: -1
+            });
+        }
+        
+        if (petal2) {
+            // 花びら2の揺れアニメーション（少し異なるタイミングで）
+            gsap.to(petal2, {
+                rotation: "-=3",
+                duration: 1.2,
+                ease: "power1.inOut",
+                yoyo: true,
+                repeat: -1,
+                delay: 0.3, // 少し遅延させて自然な動きに
+                transformOrigin: "center bottom"
+            });
+            
+            gsap.to(petal2, {
+                scale: 1.04,
+                duration: 1.6,
+                ease: "power1.inOut",
+                yoyo: true,
+                repeat: -1,
+                delay: 0.2
+            });
+        }
+        
+        console.log('🌸 チューリップタイポグラフィの花びらが揺れ始めました', { petal1: !!petal1, petal2: !!petal2 });
+    }
+    
+    stopTulipTypoAnimation(nameElement) {
+        // tyurippu.svgの花びら要素を取得
+        let svgDoc = null;
+        
+        // objectタグの場合
+        if (nameElement.tagName === 'OBJECT') {
+            svgDoc = nameElement.contentDocument;
+        } else if (nameElement.tagName === 'svg' || nameElement.querySelector('svg')) {
+            // インラインSVGの場合
+            svgDoc = nameElement.tagName === 'svg' ? nameElement : nameElement.querySelector('svg');
+        }
+        
+        if (!svgDoc) return;
+        
+        // petal と petal-2 要素を取得
+        const petal1 = svgDoc.querySelector('.petal, #petal');
+        const petal2 = svgDoc.querySelector('.petal-2, #petal-2');
+        
+        if (petal1) {
+            // 花びら1のアニメーション停止
+            gsap.killTweensOf(petal1);
+            gsap.to(petal1, {
+                rotation: 0,
+                scale: 1,
+                duration: 0.7,
+                ease: "power2.out"
+            });
+        }
+        
+        if (petal2) {
+            // 花びら2のアニメーション停止
+            gsap.killTweensOf(petal2);
+            gsap.to(petal2, {
+                rotation: 0,
+                scale: 1,
+                duration: 0.7,
+                ease: "power2.out"
+            });
+        }
+        
+        console.log('🌸 チューリップタイポグラフィの花びらの揺れが停止しました');
+    }
+    
+    onTypoPetalClick(petal, nameElement, petalType, flowerType = 'cosmos') {
+        // 既に削除されている場合は何もしない
+        if (petal.classList.contains('typo-removed')) return;
+        
+        console.log(`🌸 ${flowerType}の${petalType} がクリックされました`);
+        
+        // 花びらの現在位置を取得（SVG座標系からページ座標系に変換）
+        const svgDoc = nameElement.contentDocument || nameElement;
+        const svg = svgDoc.querySelector ? svgDoc.querySelector('svg') : svgDoc;
+        
+        // nameElementの位置とサイズを取得
+        const nameRect = nameElement.getBoundingClientRect();
+        
+        // 花びらの大まかな位置を計算（SVGの中央付近）
+        const pageX = nameRect.left + nameRect.width * 0.7; // 右寄りの位置
+        const pageY = nameRect.top + nameRect.height * 0.3; // 上寄りの位置
+        
+        // 元のSVG要素を複製してページ上に配置
+        const flyingSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        const flyingPetal = petal.cloneNode(true);
+        
+        // SVGコンテナを設定（小さめのサイズ）
+        flyingSVG.setAttribute('viewBox', '0 0 100 100');
+        flyingSVG.style.cssText = `
+            position: fixed;
+            left: ${pageX}px;
+            top: ${pageY}px;
+            width: 30px;
+            height: 30px;
+            transform: translateX(-50%) translateY(-50%);
+            z-index: 10000;
+            pointer-events: none;
+            opacity: 0.9;
+            overflow: visible;
+        `;
+        
+        // 元のSVGからすべての定義（defs）を複製
+        if (svg && svg.querySelector) {
+            const originalDefs = svg.querySelector('defs');
+            if (originalDefs) {
+                const flyingDefs = originalDefs.cloneNode(true);
+                flyingSVG.appendChild(flyingDefs);
+            }
+        }
+        
+        // 花びらを飛行用SVGに追加し、色を明示的に設定
+        flyingPetal.removeAttribute('class'); // 元のクラスを削除
+        flyingPetal.setAttribute('transform', 'translate(50, 50) scale(0.8)'); // 中央に配置してサイズ調整
+        
+        // 花の種類に応じたデフォルト色を設定
+        const flowerColors = {
+            cosmos: '#FF6B9D',
+            tulip: '#FF9500'
+        };
+        
+        // 花びらの色を明示的に設定
+        const originalFill = petal.getAttribute('fill') || petal.style.fill;
+        if (originalFill && originalFill !== 'none') {
+            flyingPetal.setAttribute('fill', originalFill);
+        } else {
+            // デフォルトの花色を設定
+            flyingPetal.setAttribute('fill', flowerColors[flowerType] || flowerColors.cosmos);
+        }
+        
+        // strokeも保持
+        const originalStroke = petal.getAttribute('stroke') || petal.style.stroke;
+        if (originalStroke && originalStroke !== 'none') {
+            flyingPetal.setAttribute('stroke', originalStroke);
+            const originalStrokeWidth = petal.getAttribute('stroke-width') || petal.style.strokeWidth;
+            if (originalStrokeWidth) {
+                flyingPetal.setAttribute('stroke-width', originalStrokeWidth);
+            }
+        }
+        
+        // グラデーションがある場合の処理
+        const computedStyle = window.getComputedStyle(petal);
+        if (computedStyle.fill && computedStyle.fill.includes('url(')) {
+            flyingPetal.setAttribute('fill', computedStyle.fill);
+        }
+        
+        flyingSVG.appendChild(flyingPetal);
+        document.body.appendChild(flyingSVG);
+        
+        // 元の花びらを即座に非表示にする
+        petal.classList.add('typo-removed');
+        petal.style.opacity = '0';
+        
+        // 飛行するSVGをアニメーション（チューリップの落ち方を参考）
+        const randomX = Math.random() * 200 - 100; // 左右のランダムな動き
+        const fallDistance = window.innerHeight + 100;
+        const fallDuration = Math.random() * 3 + 2; // 2-5秒のランダム
+        
+        gsap.to(flyingSVG, {
+            y: fallDistance,
+            x: randomX,
+            rotation: Math.random() * 720 + 360, // 1-2回転
+            scale: 0.2,
+            opacity: 0,
+            duration: fallDuration,
+            ease: "power2.in", // 重力を感じさせるイージング
+            onComplete: () => {
+                if (flyingSVG.parentNode) {
+                    flyingSVG.parentNode.removeChild(flyingSVG);
+                }
+            }
+        });
+        
+        // 風の影響で左右に揺れるアニメーション
+        const swayAnimation = () => {
+            if (flyingSVG.parentNode) {
+                gsap.to(flyingSVG, {
+                    x: `+=${Math.sin(Date.now() * 0.003) * 8}`, // より大きな揺れ
+                    duration: 0.1,
+                    ease: "none"
+                });
+                requestAnimationFrame(swayAnimation);
+            }
+        };
+        swayAnimation();
+        
+        // 5秒後に花びらを復活させる
+        setTimeout(() => {
+            this.resetTypoPetal(petal, petalType, flowerType);
+        }, 5000);
+        
+        // 花言葉占い風のメッセージを表示
+        this.showTypoPetalMessage(nameElement, petalType, flowerType);
+    }
+    
+    resetTypoPetal(petal, petalType, flowerType = 'cosmos') {
+        // 花びらを元の状態に戻す
+        petal.classList.remove('typo-removed');
+        
+        // フェードインアニメーション
+        gsap.set(petal, { opacity: 0, scale: 0.5 });
+        gsap.to(petal, {
+            opacity: 1,
+            scale: 1,
+            duration: 1,
+            ease: "back.out(1.7)"
+        });
+        
+        console.log(`🌸 ${flowerType}の${petalType} が復活しました`);
+    }
+    
+    showTypoPetalMessage(nameElement, petalType, flowerType = 'cosmos') {
+        // メッセージを表示する要素を作成
+        const container = nameElement.closest('.flower-container');
+        if (!container) return;
+        
+        const message = document.createElement('div');
+        const messages = {
+            cosmos: {
+                petal1: '調和の花びらが舞い散った...',
+                petal2: '謙虚な心が風に踊る...'
+            },
+            tulip: {
+                petal1: '愛の花びらが舞い散った...',
+                petal2: '思いやりの心が風に踊る...'
+            }
+        };
+        
+        const flowerMessages = messages[flowerType] || messages.cosmos;
+        message.textContent = flowerMessages[petalType] || `${flowerType}の花びらが舞い散った...`;
+        message.style.cssText = `
+            position: absolute;
+            top: 70%;
+            left: 50%;
+            transform: translateX(-50%);
+            color: ${flowerType === 'tulip' ? '#FF9500' : '#FF6B9D'};
+            font-size: 14px;
+            font-weight: bold;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 10;
+            text-align: center;
+            white-space: nowrap;
+        `;
+        
+        container.style.position = 'relative';
+        container.appendChild(message);
+        
+        // フェードイン・アウトアニメーション
+        gsap.to(message, {
+            opacity: 1,
+            y: -10,
+            duration: 0.5,
+            ease: "power2.out",
+            onComplete: () => {
+                setTimeout(() => {
+                    gsap.to(message, {
+                        opacity: 0,
+                        y: -20,
+                        duration: 1,
+                        onComplete: () => {
+                            if (message.parentNode) {
+                                message.parentNode.removeChild(message);
+                            }
+                        }
+                    });
+                }, 2000);
+            }
+        });
     }
 }
 

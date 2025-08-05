@@ -390,18 +390,6 @@ body {
         rgba(241, 196, 15, 0.25) 100%);
 }
 
-.flower-section[data-flower="nemophila"] {
-    background: linear-gradient(135deg, 
-        rgba(52, 152, 219, 0.15) 0%, 
-        rgba(52, 152, 219, 0.25) 100%);
-}
-
-.flower-section[data-flower="northpole"] {
-    background: linear-gradient(135deg, 
-        rgba(255, 255, 255, 0.2) 0%, 
-        rgba(236, 240, 241, 0.3) 100%);
-}
-
 /* アクティブ時の背景色強化 */
 .flower-section.active[data-flower="hydrangea"] {
     background: linear-gradient(135deg, 
@@ -425,18 +413,6 @@ body {
     background: linear-gradient(135deg, 
         rgba(255, 215, 0, 0.3) 0%, 
         rgba(241, 196, 15, 0.4) 100%);
-}
-
-.flower-section.active[data-flower="nemophila"] {
-    background: linear-gradient(135deg, 
-        rgba(52, 152, 219, 0.3) 0%, 
-        rgba(52, 152, 219, 0.4) 100%);
-}
-
-.flower-section.active[data-flower="northpole"] {
-    background: linear-gradient(135deg, 
-        rgba(255, 255, 255, 0.4) 0%, 
-        rgba(236, 240, 241, 0.5) 100%);
 }
 
 /* ============================================
@@ -615,18 +591,6 @@ body {
     --petal-color-1: #f1c40f;
     --petal-color-2: #f39c12;
     --petal-color-3: #FFD700;
-}
-
-.flower-section[data-flower="nemophila"] {
-    --petal-color-1: #3498db;
-    --petal-color-2: #2980b9;
-    --petal-color-3: #87CEEB;
-}
-
-.flower-section[data-flower="northpole"] {
-    --petal-color-1: #ffffff;
-    --petal-color-2: #ecf0f1;
-    --petal-color-3: #f8f9fa;
 }
 
 /* 花びらアニメーション（外部SVGが読み込まれた後に適用） */

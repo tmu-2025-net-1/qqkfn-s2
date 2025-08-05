@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="petal" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 19.05 61.07">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: url(#_名称未設定グラデーション_50);
+      }
+
+      .cls-2 {
+        fill: url(#_名称未設定グラデーション_26);
+      }
+    </style>
+    <linearGradient id="_名称未設定グラデーション_26" data-name="名称未設定グラデーション 26" x1="4" y1="-32.21" x2="4" y2="28.86" gradientTransform="translate(13.52 32.2) rotate(179.84) scale(1 -1)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f0ff4e" stop-opacity=".5"/>
+      <stop offset=".36" stop-color="#f4f738" stop-opacity=".67"/>
+      <stop offset="1" stop-color="#ffe90d"/>
+    </linearGradient>
+    <linearGradient id="_名称未設定グラデーション_50" data-name="名称未設定グラデーション 50" x1="28.1" y1="13.12" x2="28.1" y2="-22.66" gradientTransform="translate(37.65 38.42) rotate(-180)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#feffe6" stop-opacity=".1"/>
+      <stop offset=".22" stop-color="#fefee6" stop-opacity=".28"/>
+      <stop offset=".7" stop-color="#fefce6" stop-opacity=".72"/>
+      <stop offset="1" stop-color="#fffce6"/>
+    </linearGradient>
+  </defs>
+  <path class="cls-2" d="M0,30.56c.08,26.31,9.6,30.51,9.6,30.51,0,0,9.98-5.57,9.43-30.56C18.65,13.65,9.43,0,9.43,0,9.43,0-.05,13.7,0,30.56Z"/>
+  <ellipse class="cls-1" cx="9.56" cy="43.19" rx=".9" ry="17.89" transform="translate(-.12 .03) rotate(-.16)"/>
+</svg>

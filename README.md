@@ -37,9 +37,7 @@
 - **紫陽花** (hydrangea) - 変わりやすい心
 - **ひまわり** (sunflower) - 憧れ
 - **チューリップ** (tulip) - 愛の告白
-- **ネモフィラ** (nemophila) - 可憐
 - **コスモス** (cosmos) - 調和
-- **ノースポール** (North Pole daisy) - 誠実
 
 ## 技術仕様
 
@@ -62,9 +60,7 @@ docs/
     ├── hydrangea.svg   # 紫陽花のSVG（*.petalクラス必須）
     ├── sunflower.svg   # ひまわりのSVG（*.petalクラス必須）
     ├── tulip.svg       # チューリップのSVG（*.clickable-petalクラス必須）
-    ├── nemophila.svg   # ネモフィラのSVG（*.petalクラス必須）
-    ├── cosmos.svg      # コスモスのSVG（*.clickable-petalクラス必須）
-    └── northpole.svg   # ノースポールのSVG（*.petalクラス必須）
+    └── cosmos8.svg     # コスモスのSVG（*.clickable-petalクラス必須）
 ```
 
 ### 🔄 依存関係システム

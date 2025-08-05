@@ -9,7 +9,7 @@
     {
       "name": "Cosmos",
       "description": "A delicate flower that comes in various colors, often seen in gardens.",
-      "svg": "svg/flowers/cosmos.svg",
+      "svg": "svg/flowers/cosmos8.svg",
       "text_svg": "svg/text/cosmos-text.svg"
     },
     {
@@ -23,18 +23,6 @@
       "description": "A tall flower known for its large yellow petals and seeds.",
       "svg": "svg/flowers/sunflower.svg",
       "text_svg": "svg/text/sunflower-text.svg"
-    },
-    {
-      "name": "Nemophila",
-      "description": "A charming flower with delicate blue petals, often found in spring.",
-      "svg": "svg/flowers/nemophila.svg",
-      "text_svg": "svg/text/nemophila-text.svg"
-    },
-    {
-      "name": "Northpole",
-      "description": "A unique flower that thrives in colder climates, known for its resilience.",
-      "svg": "svg/flowers/northpole.svg",
-      "text_svg": "svg/text/northpole-text.svg"
     }
   ]
 }
