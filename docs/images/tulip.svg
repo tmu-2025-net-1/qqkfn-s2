@@ -1,34 +1,56 @@
-<svg viewBox="-50 -50 300 300" xmlns="http://www.w3.org/2000/svg" style="overflow: visible;">
-  <!-- チューリップのプレースホルダーSVG -->
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="stem" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 200 200">
   <defs>
-    <linearGradient id="tulip-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#ff9500;stop-opacity:1" />
-      <stop offset="50%" style="stop-color:#e67e22;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#d35400;stop-opacity:1" />
+    <style>
+      .cls-1 {
+        fill: url(#_名称未設定グラデーション_19-3);
+      }
+
+      .cls-2 {
+        fill: url(#_名称未設定グラデーション_20-3);
+      }
+
+      .cls-3 {
+        fill: none;
+        stroke: url(#_名称未設定グラデーション_19);
+        stroke-linecap: round;
+        stroke-miterlimit: 10;
+        stroke-width: 5.67px;
+      }
+
+      .cls-4 {
+        fill: url(#_名称未設定グラデーション_20);
+      }
+
+      .cls-5 {
+        fill: url(#_名称未設定グラデーション_20-2);
+      }
+
+      .cls-6 {
+        fill: url(#_名称未設定グラデーション_19-2);
+      }
+    </style>
+    <linearGradient id="_名称未設定グラデーション_19" data-name="名称未設定グラデーション 19" x1="116.12" y1="114.34" x2="134.71" y2="114.34" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#82ff87" stop-opacity=".4"/>
+      <stop offset="1" stop-color="#01c300"/>
     </linearGradient>
+    <linearGradient id="_名称未設定グラデーション_19-2" data-name="名称未設定グラデーション 19" x1="101.17" y1="119.23" x2="118.25" y2="105.79" xlink:href="#_名称未設定グラデーション_19"/>
+    <linearGradient id="_名称未設定グラデーション_19-3" data-name="名称未設定グラデーション 19" x1="72.67" y1="124.3" x2="89.75" y2="110.86" gradientTransform="translate(216.17) rotate(-180) scale(1 -1)" xlink:href="#_名称未設定グラデーション_19"/>
+    <linearGradient id="_名称未設定グラデーション_20" data-name="名称未設定グラデーション 20" x1="127.4" y1="120.96" x2="127.4" y2="38.96" gradientTransform="translate(0 120.96) scale(1 -1)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ffca74" stop-opacity=".4"/>
+      <stop offset="1" stop-color="#ff7705"/>
+    </linearGradient>
+    <linearGradient id="_名称未設定グラデーション_20-2" data-name="名称未設定グラデーション 20" x1="138.6" y1="121.85" x2="138.6" y2="39.85" gradientTransform="translate(-16.64 81.12) rotate(15.78) scale(1 -1)" xlink:href="#_名称未設定グラデーション_20"/>
+    <linearGradient id="_名称未設定グラデーション_20-3" data-name="名称未設定グラデーション 20" x1="116.85" y1="121.28" x2="116.85" y2="39.28" gradientTransform="translate(22.64 146.36) rotate(-13.69) scale(1 -1)" xlink:href="#_名称未設定グラデーション_20"/>
   </defs>
-  
-  <!-- 花びら -->
-  <g class="tulip-petals">
-    <ellipse class="petal clickable-petal" cx="80" cy="80" rx="15" ry="35" fill="url(#tulip-gradient)" transform="rotate(-20 100 100)"/>
-    <ellipse class="petal clickable-petal" cx="100" cy="75" rx="15" ry="35" fill="#e67e22"/>
-    <ellipse class="petal clickable-petal" cx="120" cy="80" rx="15" ry="35" fill="url(#tulip-gradient)" transform="rotate(20 100 100)"/>
+  <g transform="translate(-20, 10)">
+    <g>
+      <path class="cls-3" d="M118.96,148.03c7.63-5.37,17.63-42.55,10.43-67.38"/>
+      <path class="cls-6" d="M114.49,131.34c-13.33-13.26-25.01-44.72-25.01-44.72,0,0,32.01,14.83,36.51,31.9,2.98,11.3-4.5,26.53-4.5,26.53,0,0,1.29-5.47-7-13.71Z"/>
+      <path class="cls-1" d="M130.18,136.4c13.33-13.26,25.01-44.72,25.01-44.72,0,0-32.01,14.83-36.51,31.9-2.98,11.3,4.5,26.53,4.5,26.53,0,0-1.29-5.47,7-13.71Z"/>
+    </g>
+    <path class="cls-4 clickable-petal" d="M144.78,55c0,22.64-9.82,27-18.69,27s-16.07-5.86-16.07-28.5S126.09,0,126.09,0c0,0,18.69,32.36,18.69,55Z"/>
+    <path class="cls-5 clickable-petal" d="M151.64,59.2c-6.16,21.79-16.79,23.31-25.33,20.9-8.54-2.41-13.87-10.01-7.72-31.8,6.16-21.79,30.01-47.12,30.01-47.12,0,0,9.19,36.22,3.03,58.01Z"/>
+    <path class="cls-2 clickable-petal" d="M137.37,50.2c5.36,22-3.15,28.56-11.77,30.66-8.62,2.1-17-1.89-22.36-23.89s2.95-55.78,2.95-55.78c0,0,25.82,27.02,31.17,49.02Z"/>
   </g>
-  
-  <!-- 花の中心部 -->
-  <ellipse class="center" cx="100" cy="95" rx="8" ry="4" fill="#f39c12" opacity="0.8"/>
-  
-  <!-- おしべ -->
-  <g class="stamens">
-    <circle cx="95" cy="92" r="1.5" fill="#2c3e50"/>
-    <circle cx="100" cy="90" r="1.5" fill="#2c3e50"/>
-    <circle cx="105" cy="92" r="1.5" fill="#2c3e50"/>
-  </g>
-  
-  <!-- 茎 -->
-  <rect class="stem" x="98" y="110" width="4" height="70" fill="#27ae60"/>
-  
-  <!-- 葉 -->
-  <ellipse class="leaf" cx="75" cy="135" rx="12" ry="25" fill="#2ecc71" transform="rotate(-25 75 135)"/>
-  <ellipse class="leaf" cx="125" cy="140" rx="10" ry="20" fill="#27ae60" transform="rotate(30 125 140)"/>
 </svg>

@@ -317,20 +317,37 @@ class ScrollAnimations {
     setupPoemRandomPosition() {
         // 紫陽花セクションの詩のランダム配置を設定
         const hydrangeaSection = document.querySelector('.flower-section[data-flower="hydrangea"]');
-        if (!hydrangeaSection) return;
+        if (hydrangeaSection) {
+            const hydrangeaPoemContainer = hydrangeaSection.querySelector('.poem-text-vertical');
+            if (hydrangeaPoemContainer) {
+                // ウィンドウサイズに応じて配置を調整
+                this.positionPoemRandomly(hydrangeaPoemContainer);
+                
+                // ウィンドウリサイズ時に再配置
+                window.addEventListener('resize', () => {
+                    setTimeout(() => {
+                        this.positionPoemRandomly(hydrangeaPoemContainer);
+                    }, 100);
+                });
+            }
+        }
         
-        const poemContainer = hydrangeaSection.querySelector('.poem-text-vertical');
-        if (!poemContainer) return;
-        
-        // ウィンドウサイズに応じて配置を調整
-        this.positionPoemRandomly(poemContainer);
-        
-        // ウィンドウリサイズ時に再配置
-        window.addEventListener('resize', () => {
-            setTimeout(() => {
-                this.positionPoemRandomly(poemContainer);
-            }, 100);
-        });
+        // コスモスセクションの詩のランダム配置を設定
+        const cosmosSection = document.querySelector('.flower-section[data-flower="cosmos"]');
+        if (cosmosSection) {
+            const cosmosPoemContainer = cosmosSection.querySelector('.poem-text-vertical');
+            if (cosmosPoemContainer) {
+                // ウィンドウサイズに応じて配置を調整
+                this.positionPoemRandomly(cosmosPoemContainer);
+                
+                // ウィンドウリサイズ時に再配置
+                window.addEventListener('resize', () => {
+                    setTimeout(() => {
+                        this.positionPoemRandomly(cosmosPoemContainer);
+                    }, 100);
+                });
+            }
+        }
     }
     
     positionPoemRandomly(poemElement) {
@@ -1887,8 +1904,12 @@ class FlowerInteractions {
             this.resetTypoPetal(petal, petalType, flowerType);
         }, 5000);
         
-        // 花言葉占い風のメッセージを表示
-        this.showTypoPetalMessage(nameElement, petalType, flowerType);
+        // コスモスの場合は花占い風メッセージ、他は詩的メッセージを表示
+        if (flowerType === 'cosmos') {
+            this.showCosmosFortuneMessage(nameElement, petalType);
+        } else {
+            this.showTypoPetalMessage(nameElement, petalType, flowerType);
+        }
     }
     
     resetTypoPetal(petal, petalType, flowerType = 'cosmos') {
@@ -1905,6 +1926,72 @@ class FlowerInteractions {
         });
         
         console.log(`🌸 ${flowerType}の${petalType} が復活しました`);
+    }
+    
+    showCosmosFortuneMessage(nameElement, petalType) {
+        // コスモス専用の花占いメッセージを表示
+        const container = nameElement.closest('.flower-container');
+        if (!container) return;
+        
+        const message = document.createElement('div');
+        const fortuneMessages = [
+            'すき', 'きらい', 'すき', 'きらい', 'すき', 'きらい', 'すき', 'きらい'
+        ];
+        
+        // ランダムに花占いメッセージを選択
+        const randomMessage = fortuneMessages[Math.floor(Math.random() * fortuneMessages.length)];
+        message.textContent = `${randomMessage} 💕`;
+        message.style.cssText = `
+            position: absolute;
+            top: 70%;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #ffeb3b;
+            font-size: 18px;
+            font-weight: bold;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 10;
+            text-align: center;
+            white-space: nowrap;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+        `;
+        
+        container.style.position = 'relative';
+        container.appendChild(message);
+        
+        // フェードイン・アウトアニメーション（花占い風に派手に）
+        gsap.to(message, {
+            opacity: 1,
+            y: -10,
+            scale: 1.2,
+            duration: 0.5,
+            ease: "back.out(1.7)",
+            onComplete: () => {
+                // メッセージを少し揺らす
+                gsap.to(message, {
+                    rotation: "+=5",
+                    duration: 0.3,
+                    ease: "power1.inOut",
+                    yoyo: true,
+                    repeat: 3
+                });
+                
+                setTimeout(() => {
+                    gsap.to(message, {
+                        opacity: 0,
+                        y: -30,
+                        scale: 0.8,
+                        duration: 1,
+                        onComplete: () => {
+                            if (message.parentNode) {
+                                message.parentNode.removeChild(message);
+                            }
+                        }
+                    });
+                }, 2500);
+            }
+        });
     }
     
     showTypoPetalMessage(nameElement, petalType, flowerType = 'cosmos') {
