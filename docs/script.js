@@ -360,23 +360,23 @@ class ScrollAnimations {
         if (windowWidth <= 480) {
             // スマートフォン
             rightRange = { min: 2, max: 15 };
-            topRange = { min: 20, max: 40 };
-            maxHeight = Math.min(400, windowHeight * 0.7);
+            topRange = { min: 20, max: 35 };
+            maxHeight = Math.min(300, windowHeight * 0.5);
         } else if (windowWidth <= 768) {
             // タブレット
             rightRange = { min: 5, max: 25 };
-            topRange = { min: 15, max: 35 };
-            maxHeight = Math.min(500, windowHeight * 0.8);
+            topRange = { min: 15, max: 30 };
+            maxHeight = Math.min(400, windowHeight * 0.6);
         } else if (windowWidth <= 1024) {
             // 小さなデスクトップ/大きなタブレット
             rightRange = { min: 8, max: 30 };
-            topRange = { min: 10, max: 30 };
-            maxHeight = Math.min(600, windowHeight * 0.85);
+            topRange = { min: 10, max: 25 };
+            maxHeight = Math.min(500, windowHeight * 0.65);
         } else {
             // デスクトップ
             rightRange = { min: 10, max: 35 };
-            topRange = { min: 5, max: 25 };
-            maxHeight = Math.min(800, windowHeight * 0.9);
+            topRange = { min: 5, max: 20 };
+            maxHeight = Math.min(600, windowHeight * 0.7);
         }
         
         // ランダムな位置を計算（セーフゾーン内）
@@ -384,7 +384,7 @@ class ScrollAnimations {
         const randomTop = topRange.min + Math.random() * (topRange.max - topRange.min);
         
         // 要素の高さを動的に調整
-        const adjustedHeight = Math.min(maxHeight, windowHeight * 0.7);
+        const adjustedHeight = Math.min(maxHeight, windowHeight * 0.5);
         
         // CSS変数を使用して位置を設定
         poemElement.style.right = `${randomRight}%`;
@@ -448,34 +448,34 @@ class ScrollAnimations {
             // スマートフォン - 縦に並べる（より制限的に）
             leftRange = { min: 5, max: 25 };
             topRange = { 
-                min: Math.max(nameAreaHeight + 5, nameAreaHeight + 10 + (index * 15)), 
-                max: Math.min(85 - bottomMargin, nameAreaHeight + 20 + (index * 15))
+                min: Math.max(nameAreaHeight + 5, nameAreaHeight + 8 + (index * 10)), 
+                max: Math.min(75 - bottomMargin, nameAreaHeight + 15 + (index * 10))
             };
-            maxHeight = Math.min(180, windowHeight * 0.4);
+            maxHeight = Math.min(120, windowHeight * 0.3);
         } else if (windowWidth <= 768) {
             // タブレット - 少し広がりを持たせるが制限的に
             leftRange = { min: 8, max: 35 };
             topRange = { 
-                min: Math.max(nameAreaHeight + 3, nameAreaHeight + 8 + (index * 12)), 
-                max: Math.min(80 - bottomMargin, nameAreaHeight + 18 + (index * 12))
+                min: Math.max(nameAreaHeight + 3, nameAreaHeight + 6 + (index * 8)), 
+                max: Math.min(70 - bottomMargin, nameAreaHeight + 14 + (index * 8))
             };
-            maxHeight = Math.min(220, windowHeight * 0.45);
+            maxHeight = Math.min(150, windowHeight * 0.35);
         } else if (windowWidth <= 1024) {
             // 小さなデスクトップ - より自由だが安全な配置
             leftRange = { min: 10, max: 40 };
             topRange = { 
-                min: Math.max(nameAreaHeight + 2, nameAreaHeight + 5 + (index * 10)), 
-                max: Math.min(75 - bottomMargin, nameAreaHeight + 15 + (index * 10))
+                min: Math.max(nameAreaHeight + 2, nameAreaHeight + 4 + (index * 7)), 
+                max: Math.min(65 - bottomMargin, nameAreaHeight + 12 + (index * 7))
             };
-            maxHeight = Math.min(250, windowHeight * 0.5);
+            maxHeight = Math.min(180, windowHeight * 0.4);
         } else {
             // デスクトップ - 最も自由だが境界を守る配置
             leftRange = { min: 12, max: 45 };
             topRange = { 
-                min: Math.max(nameAreaHeight + 1, nameAreaHeight + 3 + (index * 8)), 
-                max: Math.min(70 - bottomMargin, nameAreaHeight + 12 + (index * 8))
+                min: Math.max(nameAreaHeight + 1, nameAreaHeight + 2 + (index * 6)), 
+                max: Math.min(60 - bottomMargin, nameAreaHeight + 10 + (index * 6))
             };
-            maxHeight = Math.min(280, windowHeight * 0.55);
+            maxHeight = Math.min(200, windowHeight * 0.45);
         }
         
         // topRangeの妥当性チェック（minがmaxを超えないように）
@@ -487,11 +487,11 @@ class ScrollAnimations {
         const randomLeft = leftRange.min + Math.random() * (leftRange.max - leftRange.min);
         const randomTop = Math.min(
             topRange.min + Math.random() * (topRange.max - topRange.min), 
-            70 - bottomMargin // 絶対的な上限を設定
+            60 - bottomMargin // 絶対的な上限を設定（より制限的に）
         );
         
-        // 要素の高さを動的に調整
-        const adjustedHeight = Math.min(maxHeight, windowHeight * 0.35);
+        // 要素の高さを動的に調整（より小さく）
+        const adjustedHeight = Math.min(maxHeight, windowHeight * 0.25);
         
         // ランダムなフォントサイズ (16px〜26px) - 少し小さめに調整
         const randomFontSize = 16 + Math.random() * (26 - 16);

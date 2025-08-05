@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="_レイヤー_1" data-name="レイヤー 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 48 48">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: url(#_名称未設定グラデーション_35-6);
+      }
+
+      .cls-1, .cls-2, .cls-3, .cls-4, .cls-5, .cls-6, .cls-7, .cls-8, .cls-9, .cls-10, .cls-11 {
+        isolation: isolate;
+        opacity: .9;
+      }
+
+      .cls-2 {
+        fill: url(#_名称未設定グラデーション_35-11);
+      }
+
+      .cls-3 {
+        fill: url(#_名称未設定グラデーション_35-3);
+      }
+
+      .cls-4 {
+        fill: url(#_名称未設定グラデーション_35);
+      }
+
+      .cls-5 {
+        fill: url(#_名称未設定グラデーション_35-4);
+      }
+
+      .cls-12 {
+        fill: url(#_名称未設定グラデーション_15);
+      }
+
+      .cls-6 {
+        fill: url(#_名称未設定グラデーション_35-9);
+      }
+
+      .cls-7 {
+        fill: url(#_名称未設定グラデーション_35-8);
+      }
+
+      .cls-8 {
+        fill: url(#_名称未設定グラデーション_35-7);
+      }
+
+      .cls-9 {
+        fill: url(#_名称未設定グラデーション_35-10);
+      }
+
+      .cls-10 {
+        fill: url(#_名称未設定グラデーション_35-5);
+      }
+
+      .cls-11 {
+        fill: url(#_名称未設定グラデーション_35-2);
+      }
+    </style>
+    <linearGradient id="_名称未設定グラデーション_15" data-name="名称未設定グラデーション 15" x1="24" y1="48" x2="24" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ffe9f8"/>
+      <stop offset=".49" stop-color="#a4a3b7"/>
+      <stop offset="1" stop-color="#007895"/>
+    </linearGradient>
+    <radialGradient id="_名称未設定グラデーション_35" data-name="名称未設定グラデーション 35" cx="36.06" cy="-11.44" fx="36.06" fy="-11.44" r="5.82" gradientTransform="translate(62.66 19.88) rotate(-180)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff" stop-opacity=".7"/>
+      <stop offset=".17" stop-color="#fff" stop-opacity=".66"/>
+      <stop offset=".46" stop-color="#fff" stop-opacity=".56"/>
+      <stop offset=".83" stop-color="#fff" stop-opacity=".39"/>
+      <stop offset="1" stop-color="#fff" stop-opacity=".3"/>
+    </radialGradient>
+    <radialGradient id="_名称未設定グラデーション_35-2" data-name="名称未設定グラデーション 35" cx="36.06" cy="-11.44" fx="36.06" fy="-11.44" r="5.82" gradientTransform="translate(33.67 67.62) rotate(-90)" xlink:href="#_名称未設定グラデーション_35"/>
+    <radialGradient id="_名称未設定グラデーション_35-3" data-name="名称未設定グラデーション 35" cx="36.06" cy="-11.44" fx="36.06" fy="-11.44" gradientTransform="translate(29.86 65.47) rotate(-90)" xlink:href="#_名称未設定グラデーション_35"/>
+    <radialGradient id="_名称未設定グラデーション_35-4" data-name="名称未設定グラデーション 35" cx="36.06" cy="-11.44" fx="36.06" fy="-11.44" gradientTransform="translate(27.82 61.6) rotate(-90)" xlink:href="#_名称未設定グラデーション_35"/>
+    <radialGradient id="_名称未設定グラデーション_35-5" data-name="名称未設定グラデーション 35" cx="36.06" fx="36.06" gradientTransform="translate(-19.3 32.61)" xlink:href="#_名称未設定グラデーション_35"/>
+    <radialGradient id="_名称未設定グラデーション_35-6" data-name="名称未設定グラデーション 35" cx="36.06" cy="-11.44" fx="36.06" fy="-11.44" r="5.82" gradientTransform="translate(-16.62 29.15)" xlink:href="#_名称未設定グラデーション_35"/>
+    <radialGradient id="_名称未設定グラデーション_35-7" data-name="名称未設定グラデーション 35" cx="36.06" fx="36.06" gradientTransform="translate(-12.5 27.68)" xlink:href="#_名称未設定グラデーション_35"/>
+    <radialGradient id="_名称未設定グラデーション_35-8" data-name="名称未設定グラデーション 35" cx="36.06" fx="36.06" gradientTransform="translate(16.39 -18.82) rotate(90)" xlink:href="#_名称未設定グラデーション_35"/>
+    <radialGradient id="_名称未設定グラデーション_35-9" data-name="名称未設定グラデーション 35" cx="36.06" fx="36.06" r="5.82" gradientTransform="translate(19.44 -15.68) rotate(90)" xlink:href="#_名称未設定グラデーション_35"/>
+    <radialGradient id="_名称未設定グラデーション_35-10" data-name="名称未設定グラデーション 35" cx="36.06" fx="36.06" gradientTransform="translate(67.8 13.23) rotate(-180)" xlink:href="#_名称未設定グラデーション_35"/>
+    <radialGradient id="_名称未設定グラデーション_35-11" data-name="名称未設定グラデーション 35" cx="36.06" cy="-11.44" fx="36.06" fy="-11.44" r="5.82" gradientTransform="translate(66.21 17.31) rotate(-180)" xlink:href="#_名称未設定グラデーション_35"/>
+  </defs>
+  <rect class="cls-12" width="48" height="48"/>
+  <g>
+    <ellipse class="cls-4" cx="26.61" cy="31.32" rx="1.41" ry="8.11" transform="translate(-8.97 10.75) rotate(-19.61)"/>
+    <ellipse class="cls-11" cx="22.24" cy="31.57" rx="8.11" ry="1.41" transform="translate(-13.55 46.06) rotate(-76.89)"/>
+    <ellipse class="cls-3" cx="18.43" cy="29.41" rx="8.11" ry="1.41" transform="translate(-15.28 21.15) rotate(-44.16)"/>
+    <ellipse class="cls-5" cx="16.38" cy="25.54" rx="8.11" ry="1.41" transform="translate(-4.74 3.75) rotate(-11.43)"/>
+    <ellipse class="cls-10" cx="16.76" cy="21.18" rx="1.41" ry="8.11" transform="translate(-9.06 29.1) rotate(-68.7)"/>
+    <ellipse class="cls-1" cx="19.44" cy="17.71" rx="1.41" ry="8.11" transform="translate(-6.7 14.8) rotate(-35.98)"/>
+    <ellipse class="cls-8" cx="23.56" cy="16.24" rx="1.41" ry="8.11" transform="translate(-.88 1.36) rotate(-3.25)"/>
+    <ellipse class="cls-7" cx="27.82" cy="17.24" rx="8.11" ry="1.41" transform="translate(-.87 32.98) rotate(-60.52)"/>
+    <ellipse class="cls-6" cx="30.87" cy="20.38" rx="8.11" ry="1.41" transform="translate(-5.94 16.75) rotate(-27.79)"/>
+    <ellipse class="cls-9" cx="31.74" cy="24.67" rx="1.41" ry="8.11" transform="translate(4.43 54.17) rotate(-85.07)"/>
+    <ellipse class="cls-2" cx="30.15" cy="28.75" rx="1.41" ry="8.11" transform="translate(-11.03 35.05) rotate(-52.34)"/>
+  </g>
+</svg>
