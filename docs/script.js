@@ -420,59 +420,67 @@ class ScrollAnimations {
         const windowWidth = window.innerWidth;
         const windowHeight = window.innerHeight;
         
-        // レスポンシブに対応した配置範囲の計算（詩とは異なる位置、各単語も重ならないように配置）
+        // レスポンシブに対応した配置範囲の計算（花の名前と次のページとの境目を避ける）
         let leftRange, topRange, maxHeight;
         
-        // 最初の花言葉（「変わりやすい心」）をより上に配置
-        const isFirstWord = index === 0;
-        const topOffset = isFirstWord ? -10 : 0; // 最初の花言葉を10%上に
+        // 花の名前を避けるため、最初の花言葉でも適切な位置から開始
+        const nameAreaHeight = 15; // 花の名前エリアの高さ（%）
+        const bottomMargin = 15; // 次のページとの境目を避けるマージン（%）
         
         if (windowWidth <= 480) {
-            // スマートフォン - 縦に並べる
+            // スマートフォン - 縦に並べる（より制限的に）
             leftRange = { min: 5, max: 25 };
             topRange = { 
-                min: Math.max(5, 20 + (index * 25) + topOffset), 
-                max: Math.max(20, 35 + (index * 25) + topOffset) 
+                min: Math.max(nameAreaHeight + 5, nameAreaHeight + 10 + (index * 15)), 
+                max: Math.min(85 - bottomMargin, nameAreaHeight + 20 + (index * 15))
             };
-            maxHeight = Math.min(200, windowHeight * 0.45);
+            maxHeight = Math.min(180, windowHeight * 0.4);
         } else if (windowWidth <= 768) {
-            // タブレット - 少し広がりを持たせる
+            // タブレット - 少し広がりを持たせるが制限的に
             leftRange = { min: 8, max: 35 };
             topRange = { 
-                min: Math.max(5, 15 + (index * 20) + topOffset), 
-                max: Math.max(20, 30 + (index * 20) + topOffset) 
+                min: Math.max(nameAreaHeight + 3, nameAreaHeight + 8 + (index * 12)), 
+                max: Math.min(80 - bottomMargin, nameAreaHeight + 18 + (index * 12))
             };
-            maxHeight = Math.min(250, windowHeight * 0.5);
+            maxHeight = Math.min(220, windowHeight * 0.45);
         } else if (windowWidth <= 1024) {
-            // 小さなデスクトップ - より自由な配置
+            // 小さなデスクトップ - より自由だが安全な配置
             leftRange = { min: 10, max: 40 };
             topRange = { 
-                min: Math.max(3, 10 + (index * 18) + topOffset), 
-                max: Math.max(18, 25 + (index * 18) + topOffset) 
+                min: Math.max(nameAreaHeight + 2, nameAreaHeight + 5 + (index * 10)), 
+                max: Math.min(75 - bottomMargin, nameAreaHeight + 15 + (index * 10))
             };
-            maxHeight = Math.min(280, windowHeight * 0.6);
+            maxHeight = Math.min(250, windowHeight * 0.5);
         } else {
-            // デスクトップ - 最も自由な配置
+            // デスクトップ - 最も自由だが境界を守る配置
             leftRange = { min: 12, max: 45 };
             topRange = { 
-                min: Math.max(2, 8 + (index * 15) + topOffset), 
-                max: Math.max(15, 20 + (index * 15) + topOffset) 
+                min: Math.max(nameAreaHeight + 1, nameAreaHeight + 3 + (index * 8)), 
+                max: Math.min(70 - bottomMargin, nameAreaHeight + 12 + (index * 8))
             };
-            maxHeight = Math.min(300, windowHeight * 0.6);
+            maxHeight = Math.min(280, windowHeight * 0.55);
         }
         
-        // ランダムな位置を計算（詩とは逆側、各単語は重ならないよう調整）
+        // topRangeの妥当性チェック（minがmaxを超えないように）
+        if (topRange.min >= topRange.max) {
+            topRange.max = topRange.min + 5; // 最小でも5%の範囲を確保
+        }
+        
+        // ランダムな位置を計算（境界を厳守）
         const randomLeft = leftRange.min + Math.random() * (leftRange.max - leftRange.min);
-        const randomTop = Math.min(topRange.min + Math.random() * (topRange.max - topRange.min), 80); // 80%を超えないよう制限
+        const randomTop = Math.min(
+            topRange.min + Math.random() * (topRange.max - topRange.min), 
+            70 - bottomMargin // 絶対的な上限を設定
+        );
         
         // 要素の高さを動的に調整
-        const adjustedHeight = Math.min(maxHeight, windowHeight * 0.4);
+        const adjustedHeight = Math.min(maxHeight, windowHeight * 0.35);
         
-        // ランダムなフォントサイズ (18px〜30px)
-        const randomFontSize = 18 + Math.random() * (30 - 18);
+        // ランダムなフォントサイズ (16px〜26px) - 少し小さめに調整
+        const randomFontSize = 16 + Math.random() * (26 - 16);
         
-        // ランダムな透明度 (50%〜80%)
-        const randomOpacity = 0.5 + Math.random() * (0.8 - 0.5);
+        // ランダムな透明度 (60%〜85%) - 少し濃くして視認性向上
+        const randomOpacity = 0.6 + Math.random() * (0.85 - 0.6);
         
         // CSS変数を使用して位置とスタイルを設定
         wordElement.style.left = `${randomLeft}%`;
@@ -484,24 +492,24 @@ class ScrollAnimations {
         // random-styleクラスを追加してトランジション効果を適用
         wordElement.classList.add('random-style');
         
-        // レスポンシブ時のベースフォントサイズも維持（ランダムサイズに上書きされる）
+        // レスポンシブ時のベースフォントサイズも維持（境界を守りつつランダム化）
         if (windowWidth <= 360) {
             // 最小サイズは保持しつつランダム化
-            const minSize = 11;
+            const minSize = 10;
             const adjustedRandomSize = Math.max(minSize, randomFontSize * 0.7);
             wordElement.style.fontSize = `${adjustedRandomSize}px`;
         } else if (windowWidth <= 480) {
-            const minSize = 12;
+            const minSize = 11;
             const adjustedRandomSize = Math.max(minSize, randomFontSize * 0.8);
             wordElement.style.fontSize = `${adjustedRandomSize}px`;
         } else if (windowWidth <= 768) {
-            const minSize = 14;
+            const minSize = 13;
             const adjustedRandomSize = Math.max(minSize, randomFontSize * 0.9);
             wordElement.style.fontSize = `${adjustedRandomSize}px`;
         }
         
-        // デバッグ用ログ（開発時にコメントアウト可能）
-        console.log(`🌺 花言葉${index + 1}の配置: left: ${randomLeft.toFixed(1)}%, top: ${randomTop.toFixed(1)}%, fontSize: ${randomFontSize.toFixed(1)}px, opacity: ${randomOpacity.toFixed(2)}`);
+        // デバッグ用ログ（境界情報も含める）
+        console.log(`🌺 花言葉${index + 1}の配置: left: ${randomLeft.toFixed(1)}%, top: ${randomTop.toFixed(1)}% (範囲: ${topRange.min.toFixed(1)}%-${topRange.max.toFixed(1)}%), fontSize: ${randomFontSize.toFixed(1)}px, opacity: ${randomOpacity.toFixed(2)}`);
     }
     
     updateFlowerColors(objectElement, progress, flowerType) {
@@ -843,7 +851,7 @@ class FlowerInteractions {
         const section = container ? container.closest('.flower-section') : null;
         const flowerType = section ? section.dataset.flower : null;
         
-        // コスモスまたはチューリップタイポグラフィの花びら要素を取得
+        // コスモス、チューリップ、またはひまわりタイポグラフィの花びら要素を取得
         const petal1 = svgDoc.querySelector('.petal, #petal');
         const petal2 = svgDoc.querySelector('.petal-2, #petal-2');
         
@@ -1133,6 +1141,11 @@ class FlowerInteractions {
             this.startTulipTypoAnimation(nameElement);
         }
         
+        // ひまわりタイポグラフィの花びら揺れアニメーション
+        if (flowerType === 'sunflower' && nameElement && nameElement.classList.contains('name-svg-loaded')) {
+            this.startSunflowerTypoAnimation(nameElement);
+        }
+        
         // 花言葉の浮遊アニメーション
         const meaningTexts = container.querySelectorAll('.meaning-text');
         meaningTexts.forEach(text => {
@@ -1180,6 +1193,11 @@ class FlowerInteractions {
         // チューリップタイポグラフィの花びら揺れアニメーション停止
         if (flowerType === 'tulip' && nameElement && nameElement.classList.contains('name-svg-loaded')) {
             this.stopTulipTypoAnimation(nameElement);
+        }
+        
+        // ひまわりタイポグラフィの花びら揺れアニメーション停止
+        if (flowerType === 'sunflower' && nameElement && nameElement.classList.contains('name-svg-loaded')) {
+            this.stopSunflowerTypoAnimation(nameElement);
         }
         
         // 花言葉のアニメーション停止
@@ -1561,6 +1579,187 @@ class FlowerInteractions {
         }
         
         console.log('🌸 チューリップタイポグラフィの花びらの揺れが停止しました');
+    }
+    
+    startSunflowerTypoAnimation(nameElement) {
+        // himawari.svgの花びら要素を取得
+        let svgDoc = null;
+        
+        // objectタグの場合
+        if (nameElement.tagName === 'OBJECT') {
+            svgDoc = nameElement.contentDocument;
+        } else if (nameElement.tagName === 'svg' || nameElement.querySelector('svg')) {
+            // インラインSVGの場合
+            svgDoc = nameElement.tagName === 'svg' ? nameElement : nameElement.querySelector('svg');
+        }
+        
+        if (!svgDoc) return;
+        
+        // petal と petal-2 要素を取得（クラス名またはid属性で）
+        const petal1 = svgDoc.querySelector('.petal, #petal');
+        const petal2 = svgDoc.querySelector('.petal-2, #petal-2');
+        
+        // 「向」の字の中にある花の部分を取得（一般的なクラス名やid名で探す）
+        const innerFlower = svgDoc.querySelector('.inner-flower, #inner-flower, .flower, #flower, .center-flower, #center-flower');
+        
+        // 花の自転アニメーション（「向」の字の中の花）
+        if (innerFlower) {
+            gsap.to(innerFlower, {
+                rotation: 360,
+                duration: 3, // 3秒で一回転
+                ease: "none",
+                repeat: -1, // 無限リピート
+                transformOrigin: "center center" // 中心を軸にして回転
+            });
+            console.log('🌻 「向」の字の中の花が自転を開始しました');
+        } else {
+            // フォールバック：他の可能な花要素を探す
+            const possibleFlowerElements = [
+                svgDoc.querySelector('g[id*="flower"]'),
+                svgDoc.querySelector('g[class*="flower"]'),
+                svgDoc.querySelector('circle.flower'),
+                svgDoc.querySelector('path.flower'),
+                svgDoc.querySelector('ellipse.flower')
+            ].filter(el => el !== null);
+            
+            if (possibleFlowerElements.length > 0) {
+                const flowerElement = possibleFlowerElements[0];
+                gsap.to(flowerElement, {
+                    rotation: 360,
+                    duration: 3,
+                    ease: "none",
+                    repeat: -1,
+                    transformOrigin: "center center"
+                });
+                console.log('🌻 フォールバック: 花要素が自転を開始しました', flowerElement);
+            } else {
+                console.log('⚠️ 「向」の字の中の花要素が見つかりませんでした');
+            }
+        }
+        
+        if (petal1) {
+            // 花びら1の揺れアニメーション（ひまわりらしい力強い動き）
+            gsap.to(petal1, {
+                rotation: "+=5",
+                duration: 0.8,
+                ease: "power1.inOut",
+                yoyo: true,
+                repeat: -1,
+                transformOrigin: "center bottom" // 花びらの根元を軸にして揺れる
+            });
+            
+            // 軽微なスケール変化も追加（太陽に向かって伸びるような効果）
+            gsap.to(petal1, {
+                scale: 1.05,
+                duration: 1.0,
+                ease: "power1.inOut",
+                yoyo: true,
+                repeat: -1
+            });
+        }
+        
+        if (petal2) {
+            // 花びら2の揺れアニメーション（少し異なるタイミングで）
+            gsap.to(petal2, {
+                rotation: "-=6",
+                duration: 0.9,
+                ease: "power1.inOut",
+                yoyo: true,
+                repeat: -1,
+                delay: 0.1, // 少し遅延させて自然な動きに
+                transformOrigin: "center bottom"
+            });
+            
+            gsap.to(petal2, {
+                scale: 1.06,
+                duration: 1.1,
+                ease: "power1.inOut",
+                yoyo: true,
+                repeat: -1,
+                delay: 0.05
+            });
+        }
+        
+        console.log('🌸 ひまわりタイポグラフィの花びらが揺れ始めました', { petal1: !!petal1, petal2: !!petal2 });
+    }
+    
+    stopSunflowerTypoAnimation(nameElement) {
+        // himawari.svgの花びら要素を取得
+        let svgDoc = null;
+        
+        // objectタグの場合
+        if (nameElement.tagName === 'OBJECT') {
+            svgDoc = nameElement.contentDocument;
+        } else if (nameElement.tagName === 'svg' || nameElement.querySelector('svg')) {
+            // インラインSVGの場合
+            svgDoc = nameElement.tagName === 'svg' ? nameElement : nameElement.querySelector('svg');
+        }
+        
+        if (!svgDoc) return;
+        
+        // petal と petal-2 要素を取得
+        const petal1 = svgDoc.querySelector('.petal, #petal');
+        const petal2 = svgDoc.querySelector('.petal-2, #petal-2');
+        
+        // 「向」の字の中にある花の部分を取得
+        const innerFlower = svgDoc.querySelector('.inner-flower, #inner-flower, .flower, #flower, .center-flower, #center-flower');
+        
+        // 花の自転アニメーション停止
+        if (innerFlower) {
+            gsap.killTweensOf(innerFlower);
+            gsap.to(innerFlower, {
+                rotation: 0,
+                duration: 0.8,
+                ease: "power2.out"
+            });
+            console.log('🌻 「向」の字の中の花の自転が停止しました');
+        } else {
+            // フォールバック：他の可能な花要素の停止
+            const possibleFlowerElements = [
+                svgDoc.querySelector('g[id*="flower"]'),
+                svgDoc.querySelector('g[class*="flower"]'),
+                svgDoc.querySelector('circle.flower'),
+                svgDoc.querySelector('path.flower'),
+                svgDoc.querySelector('ellipse.flower')
+            ].filter(el => el !== null);
+            
+            possibleFlowerElements.forEach(flowerElement => {
+                gsap.killTweensOf(flowerElement);
+                gsap.to(flowerElement, {
+                    rotation: 0,
+                    duration: 0.8,
+                    ease: "power2.out"
+                });
+            });
+            
+            if (possibleFlowerElements.length > 0) {
+                console.log('🌻 フォールバック: 花要素の自転が停止しました');
+            }
+        }
+        
+        if (petal1) {
+            // 花びら1のアニメーション停止
+            gsap.killTweensOf(petal1);
+            gsap.to(petal1, {
+                rotation: 0,
+                scale: 1,
+                duration: 0.8,
+                ease: "power2.out"
+            });
+        }
+        
+        if (petal2) {
+            // 花びら2のアニメーション停止
+            gsap.killTweensOf(petal2);
+            gsap.to(petal2, {
+                rotation: 0,
+                scale: 1,
+                duration: 0.8,
+                ease: "power2.out"
+            });
+        }
+        
+        console.log('🌸 ひまわりタイポグラフィの花びらの揺れが停止しました');
     }
     
     onTypoPetalClick(petal, nameElement, petalType, flowerType = 'cosmos') {
